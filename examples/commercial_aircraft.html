@@ -1,0 +1,909 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Commercial Aircraft Range Maximization by Differential Inclusion &#8212; dymos 0.13.0 documentation</title>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Double Integrator" href="double_integrator.html" />
+    <link rel="prev" title="Brachistochrone: A simple optimal control example" href="brachistochrone.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="double_integrator.html" title="Double Integrator"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="brachistochrone.html" title="Brachistochrone: A simple optimal control example"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dymos 0.13.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="examples.html" accesskey="U">Dymos by Example</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Commercial Aircraft Range Maximization by Differential Inclusion</a><ul>
+<li><a class="reference internal" href="#differential-inclusion">Differential Inclusion</a><ul>
+<li><a class="reference internal" href="#pitfalls-of-differential-inclusion">Pitfalls of Differential Inclusion</a><ul>
+<li><a class="reference internal" href="#solver-options">Solver Options</a></li>
+<li><a class="reference internal" href="#the-impact-of-choice-of-transcription">The Impact of Choice of Transcription</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#problem-formulation">Problem Formulation</a><ul>
+<li><a class="reference internal" href="#state-variables">State Variables</a></li>
+<li><a class="reference internal" href="#dynamic-controls">Dynamic Controls</a></li>
+<li><a class="reference internal" href="#design-parameters">Design Parameters</a></li>
+<li><a class="reference internal" href="#objective">Objective</a></li>
+<li><a class="reference internal" href="#nonlinear-path-constraints">Nonlinear Path Constraints</a></li>
+<li><a class="reference internal" href="#nonlinear-boundary-constraints">Nonlinear Boundary Constraints</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#models">Models</a><ul>
+<li><a class="reference internal" href="#atmosphere">Atmosphere</a></li>
+<li><a class="reference internal" href="#true-airspeed">True Airspeed</a></li>
+<li><a class="reference internal" href="#flight-path-angle">Flight Path Angle</a></li>
+<li><a class="reference internal" href="#range-rate">Range Rate</a></li>
+<li><a class="reference internal" href="#mass">Mass</a></li>
+<li><a class="reference internal" href="#dynamic-pressure">Dynamic Pressure</a></li>
+<li><a class="reference internal" href="#aerodynamics">Aerodynamics</a></li>
+<li><a class="reference internal" href="#flight-equilibrium">Flight Equilibrium</a></li>
+<li><a class="reference internal" href="#propulsion">Propulsion</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-ode-system-aircraft-ode-py">1. The ODE System: aircraft_ode.py</a></li>
+<li><a class="reference internal" href="#building-and-running-the-problem">2. Building and running the problem</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="brachistochrone.html"
+                        title="previous chapter">Brachistochrone: A simple optimal control example</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="double_integrator.html"
+                        title="next chapter">Double Integrator</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/commercial_aircraft.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="commercial-aircraft-range-maximization-by-differential-inclusion">
+<h1>Commercial Aircraft Range Maximization by Differential Inclusion<a class="headerlink" href="#commercial-aircraft-range-maximization-by-differential-inclusion" title="Permalink to this headline">¶</a></h1>
+<p>In this example we seek to maximize the range of a commercial aircraft
+flying at a constant Mach number with a fixed initial fuel load.
+The initial and final altitudes are constrained to 10000 ft
+(that is, in this simplified example we’re ignoring
+the aircraft behavior near the ground).</p>
+<p>This example is simplified in several ways.  The Mach number is fixed
+at 0.8.  When only considering fuel burn, the aircraft will tend to fly
+slower to conserve fuel, ignoring the running costs of being airborne.</p>
+<p>For a more detailed optimization of commercial aircraft performance, see <a class="reference internal" href="#bettsaircraft1995" id="id1"><span>[BettsAircraft1995]</span></a>.</p>
+<div class="section" id="differential-inclusion">
+<h2>Differential Inclusion<a class="headerlink" href="#differential-inclusion" title="Permalink to this headline">¶</a></h2>
+<p>In this case we also use the steady flight assumption to allow the problem
+to be parameterized with a different control set.  Rather than providing
+throttle/thrust and angle of attack as control variables, we use a <em>differential
+inclusion</em> approach.  Whereas altitude and velocity are often treated as
+state variables to be integrated, here we take a slightly different approach.</p>
+<p>Rather than using the differential equations to compute rates for the
+flight path angle and true airspeed, we use a nonlinear solver to determine
+the alpha and thrust time-history which is needed to make the given
+altitude and airspeed time-history possible.  This technique is known
+as differential inclusion.  It was demonstrated by Seywald <a class="reference internal" href="#seywald1994" id="id2"><span>[Seywald1994]</span></a>.  Since
+the collocation techniques in Dymos are based on polynomial approximations,
+rates of the control variables can be easily calculated, which can then be used
+to the reordered dynamics equations to solve for angle of attack and thrust.</p>
+<p>The use of collocation/psuedospectral techniques in solving problems via
+differential inclusion has been examined by Fahroo and Ross <a class="reference internal" href="#fahrooross2001" id="id3"><span>[FahrooRoss2001]</span></a> and
+Kumar and Seywald <a class="reference internal" href="#kumar1996" id="id4"><span>[Kumar1996]</span></a>. Since the differential inclusion approach demonstrated
+here relies on nonlinear solvers running within the ODE model, obtaining accurate
+derivatives is paramount.  Computing derivatives with finite differences in the
+presence of nonlinear solvers can lead to inaccurate derivatives based on the properties
+of the solver.  With OpenMDAO’s unified derivatives framework, the sensitivy to
+solver tolerances is greatly reduced.</p>
+<div class="section" id="pitfalls-of-differential-inclusion">
+<h3>Pitfalls of Differential Inclusion<a class="headerlink" href="#pitfalls-of-differential-inclusion" title="Permalink to this headline">¶</a></h3>
+<p>Differential inclusion works well in this case but it is highly dependent
+on the parameterization of the problem.  For instance, it is possible for the
+optimizer to suggest a flight profile that requires thrust well beyond the capabilities
+of the vehicle.  In our case, the throttle parameter <span class="math notranslate nohighlight">\($\tau$\)</span> is path constrained
+within the optimizer, so that the optimizer can make the solution physically attainable
+by our model.</p>
+<p>We have two options for how to tackle this problem.  We could specify altitude as a control
+variable, and use it’s approximate derivative (<cite>alt_rate</cite>) to provide the altitude rate for
+the flight equilibrium conditions.  In practice, however, this noisy derivative of altitude
+can cause numerical difficulties.  Other times, the optimizer will shape the control to satisfy
+our equilibrium conditions at the collocation nodes but be wildly wrong in between these nodes.
+One simple way to get around this is to still integrate altitude, but to provide <cite>climb_rate</cite>
+as the control variable.  This makes it easy to constraint <cite>climb_rate</cite> with bounds constraints,
+and the time-history of altitude will be smoother since it is the time integral of the rate of
+climb.</p>
+<div class="section" id="solver-options">
+<h4>Solver Options<a class="headerlink" href="#solver-options" title="Permalink to this headline">¶</a></h4>
+<p>In general, <cite>openmdao.api.AnalysisError</cite> should be raised when the design variables
+provided by the optimizer result in nonconvergence of the solvers. This informs pyoptsparse
+to backtrack along its line search for a solution.  This error can be raised by the <cite>compute</cite>
+method of a component.  The nonlinear solver can also raise this error if it fails to converge
+by setting the following options:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">nonlinear_solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;maxiter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">nonlinear_solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;err_on_maxiter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p>In the course of solving, an outer NewtonSolver won’t necessarily force subsystems to be solved,
+instead relying on the derivative at the at the previous solution.  In the context of OpenMDAO,
+even explicit components constitute subsystems. This can lead to poorly converged solutions.</p>
+<p>Setting the <cite>solve_subystems</cite> option to True will force subsystems to be updated, making sure that
+all derivative information is up-to-date.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">nonlinear_solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;solve_subsystems&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">nonlinear_solver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;max_sub_solves&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-impact-of-choice-of-transcription">
+<h4>The Impact of Choice of Transcription<a class="headerlink" href="#the-impact-of-choice-of-transcription" title="Permalink to this headline">¶</a></h4>
+<p>The high-order Gauss-Lobatto method used by Dymos evaluates the ordinary differential equations
+in a two-step process.  First, the ODEs are evaluated at the <em>state discretization</em> nodes.  Using
+the state values and derivatives, values and rates at the <em>collocation</em> nodes are then interpolated.
+If a large rate is found at one of the state discretization nodes, the interpolation at the
+collocation node can be outside of the expected range, leading to nonconvergence of solvers within
+the ODEs.</p>
+<p>There is also an overhead cost to invoking solvers.  While differential inclusion reduces the
+number of design variables for the optimizer, it also slows down each evaluation of the ODE
+somewhat.  Since evaluating the collocation constraints in the Gauss-Lobatto method requires two
+evaluations of the ODE, it typically suffers greater slowdown that the Radau Pseudospectral method,
+which evaluates the defects of the ODE with a single evaluation that encompasses all the nodes.</p>
+<p>For these reasons the Radau Pseudospectral transcription is typically preferable when using
+a differential inclusion approach to problems.</p>
+</div>
+</div>
+</div>
+<div class="section" id="problem-formulation">
+<h2>Problem Formulation<a class="headerlink" href="#problem-formulation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="state-variables">
+<h3>State Variables<a class="headerlink" href="#state-variables" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 39%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Fixed Initial Value</p></th>
+<th class="head"><p>Fixed Final Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>range</p></td>
+<td><p>distance flown along ground</p></td>
+<td><p>True (0 NM)</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-odd"><td><p>mass_fuel</p></td>
+<td><p>mass of fuel aboard aircraft</p></td>
+<td><p>True (30000 lbm)</p></td>
+<td><p>True (0 lbm)</p></td>
+</tr>
+<tr class="row-even"><td><p>alt</p></td>
+<td><p>aircraft altitude</p></td>
+<td><p>True (10000 ft)</p></td>
+<td><p>True (10000 ft)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dynamic-controls">
+<h3>Dynamic Controls<a class="headerlink" href="#dynamic-controls" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 34%" />
+<col style="width: 10%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Optimized</p></th>
+<th class="head"><p>Fixed Initial Value</p></th>
+<th class="head"><p>Fixed Final Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>climb_rate</p></td>
+<td><p>aircraft rate of climb</p></td>
+<td><p>True</p></td>
+<td><p>False</p></td>
+<td><p>False</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="design-parameters">
+<h3>Design Parameters<a class="headerlink" href="#design-parameters" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Optimized</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mach</p></td>
+<td><p>mach number</p></td>
+<td><p>False (0.8)</p></td>
+</tr>
+<tr class="row-odd"><td><p>S</p></td>
+<td><p>aerodynamic reference area</p></td>
+<td><p>False (427.8 m**2)</p></td>
+</tr>
+<tr class="row-even"><td><p>mass_empty</p></td>
+<td><p>aircraft empty mass</p></td>
+<td><p>False (330693.393 lbm)</p></td>
+</tr>
+<tr class="row-odd"><td><p>mass_payload</p></td>
+<td><p>aircraft payload mass</p></td>
+<td><p>False (74100 lbm)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="objective">
+<h3>Objective<a class="headerlink" href="#objective" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Location (initial or final)</p></th>
+<th class="head"><p>Minimized or Maximized</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>range</p></td>
+<td><p>final</p></td>
+<td><p>Maximized</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="nonlinear-path-constraints">
+<h3>Nonlinear Path Constraints<a class="headerlink" href="#nonlinear-path-constraints" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 44%" />
+<col style="width: 18%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Location (initial or final)</p></th>
+<th class="head"><p>Lower</p></th>
+<th class="head"><p>Upper</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>tau</p></td>
+<td><p>engine throttle parameter</p></td>
+<td><p>0.01</p></td>
+<td><p>1.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="nonlinear-boundary-constraints">
+<h3>Nonlinear Boundary Constraints<a class="headerlink" href="#nonlinear-boundary-constraints" title="Permalink to this headline">¶</a></h3>
+<p>None</p>
+</div>
+</div>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="atmosphere">
+<h3>Atmosphere<a class="headerlink" href="#atmosphere" title="Permalink to this headline">¶</a></h3>
+<p>This problem uses an analytic fit to the 1976 standard atmosphere.</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Input or Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>alt</p></td>
+<td><p>altitude (m)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>pres</p></td>
+<td><p>static pressure (Pa)</p></td>
+<td><p>output</p></td>
+</tr>
+<tr class="row-even"><td><p>temp</p></td>
+<td><p>temperature (K)</p></td>
+<td><p>output</p></td>
+</tr>
+<tr class="row-odd"><td><p>sos</p></td>
+<td><p>speed of sound (m/s)</p></td>
+<td><p>output</p></td>
+</tr>
+<tr class="row-even"><td><p>rho</p></td>
+<td><p>density (kg/m**3)</p></td>
+<td><p>output</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="true-airspeed">
+<h3>True Airspeed<a class="headerlink" href="#true-airspeed" title="Permalink to this headline">¶</a></h3>
+<p><cite>TrueAirspeedComp</cite> uses the Mach number, provided as a control, and the speed of
+sound from the atmosphere model to compute the true airspeed of the aircraft.</p>
+<div class="math notranslate nohighlight">
+\[TAS = mach \cdot sos\]</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Input or Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mach</p></td>
+<td><p>Mach number</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>sos</p></td>
+<td><p>speed of sound (m/s)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-even"><td><p>TAS</p></td>
+<td><p>true airspeed (m/s)</p></td>
+<td><p>output</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="flight-path-angle">
+<h3>Flight Path Angle<a class="headerlink" href="#flight-path-angle" title="Permalink to this headline">¶</a></h3>
+<p><cite>SteadyFlightPathAngleComp</cite> uses the true airspeed and the climb rate, obtained
+by differentiating the altitude time history at the nodes, to compute the
+flight path angle.</p>
+<div class="math notranslate nohighlight">
+\[\gamma = \arctan{\frac{TAS}{\dot{h}}}\]</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Input or Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TAS</p></td>
+<td><p>true airspeed (m/s)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>alt_rate</p></td>
+<td><p>climb rate (m/s)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-even"><td><p>gam</p></td>
+<td><p>flight path angle (rad)</p></td>
+<td><p>output</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="range-rate">
+<h3>Range Rate<a class="headerlink" href="#range-rate" title="Permalink to this headline">¶</a></h3>
+<p><cite>RangeRateComp</cite> uses the true airspeed and the flight path angle to
+determine the velocity projected along the ground.  This is the
+derivative of the state variable <cite>range</cite>.</p>
+<div class="math notranslate nohighlight">
+\[\dot{range} = TAS \cdot \cos{\gamma}\]</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Input or Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TAS</p></td>
+<td><p>true airspeed (m/s)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>gam</p></td>
+<td><p>flight path angle (rad)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-even"><td><p>dXdt:range</p></td>
+<td><p>range rate (m/s)</p></td>
+<td><p>output</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="mass">
+<h3>Mass<a class="headerlink" href="#mass" title="Permalink to this headline">¶</a></h3>
+<p>The component <cite>MassComp</cite> defined in <cite>mass_comp.py</cite> computes the aircraft
+total mass based on its empty mass, payload mass, and current fuel mass.
+It also computes total weight which simplifies some equations later on.</p>
+<div class="math notranslate nohighlight">
+\[mass_{total} = mass_{empty} + mass_{payload} + mass_{fuel}
+W_{total} = 9.80665 mass_{total}\]</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Input or Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mass_empty</p></td>
+<td><p>aircraft empty mass (kg)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>mass_payload</p></td>
+<td><p>payload mass (kg)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-even"><td><p>mass_fuel</p></td>
+<td><p>fuel mass (kg)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>mass_total</p></td>
+<td><p>total aircraft mass (kg)</p></td>
+<td><p>output</p></td>
+</tr>
+<tr class="row-even"><td><p>W_total</p></td>
+<td><p>total aircraft weight (N)</p></td>
+<td><p>output</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dynamic-pressure">
+<h3>Dynamic Pressure<a class="headerlink" href="#dynamic-pressure" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>DynamicPressureComp</cite> computes the dynamic pressure from true airspeed
+and atmospheric density.</p>
+<div class="math notranslate nohighlight">
+\[q = \frac{1}{2}\rho TAS^2\]</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Input or Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TAS</p></td>
+<td><p>true airspeed (m/s)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>rho</p></td>
+<td><p>atmospheric density (kg/m**3)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-even"><td><p>q</p></td>
+<td><p>dynamic pressure (Pa)</p></td>
+<td><p>output</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="aerodynamics">
+<h3>Aerodynamics<a class="headerlink" href="#aerodynamics" title="Permalink to this headline">¶</a></h3>
+<p>The aerodynamics group computes the aerodynamic coefficients and forces
+on the vehicle.  It consists of an interpolation component which outputs
+lift, drag, and moment coefficients as a function of Mach number, angle of attack,
+altitude, and tail rotation angle.  A second component then uses these
+coefficients, along with dynamic pressure and aerodynamic reference area,
+to compute the lift and drag forces on the vehicle.</p>
+<p>The aerodynamics group resides within the flight equilibrium group.  As that
+group iterates to find the combination of thrust coefficient, angle of attack,
+and tail rotation angle, aerodynamics needs to update the values of the
+interpolated coefficients and resulting forces.</p>
+<p>Organizationally speaking, we logically could have put the dynamic pressure component
+within the aerodynamics group.  However, since that group doesn’t need to be
+updated with changes in alpha and tail angle, it’s more efficient to leave it
+outside of flight equilibrium group.</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 47%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Input or Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mach</p></td>
+<td><p>mach number</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>alt</p></td>
+<td><p>altitude (m)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-even"><td><p>alpha</p></td>
+<td><p>angle of attack (deg)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-odd"><td><p>eta</p></td>
+<td><p>tail rotation angle (deg)</p></td>
+<td><p>input</p></td>
+</tr>
+<tr class="row-even"><td><p>CL</p></td>
+<td><p>lift coefficient</p></td>
+<td><p>output</p></td>
+</tr>
+<tr class="row-odd"><td><p>CD</p></td>
+<td><p>drag coefficient</p></td>
+<td><p>output</p></td>
+</tr>
+<tr class="row-even"><td><p>CM</p></td>
+<td><p>moment coefficient</p></td>
+<td><p>output</p></td>
+</tr>
+<tr class="row-odd"><td><p>L</p></td>
+<td><p>lift force (N)</p></td>
+<td><p>output</p></td>
+</tr>
+<tr class="row-even"><td><p>D</p></td>
+<td><p>drag force (N)</p></td>
+<td><p>output</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example uses <cite>openmdao.api.MetaModelStructuredComp</cite> to interpolate aerodynamic properties
+of the vehicle.  This component is somewhat easier to use since it is distributed as part of
+OpenMDAO, but it can be significantly slower than alternatives such as
+<a class="reference external" href="https://github.com/OpenMDAO/MBI">MBI</a> and <a class="reference external" href="https://github.com/SMTorg/smt">SMT</a>.  The
+Aerodynamics group includes an implementation of the aerodynamics coefficients interpolant
+which uses MBI that is commented out.  By switching to MBI for this component, this problem
+will solve roughly 20 times faster.</p>
+</div>
+</div>
+<div class="section" id="flight-equilibrium">
+<h3>Flight Equilibrium<a class="headerlink" href="#flight-equilibrium" title="Permalink to this headline">¶</a></h3>
+<p>The steady flight equilibrium group uses balances to solve for the angle of attack and
+tail plane rotation angle such that the aircraft is in steady
+flight (the rates of change in flight path angle and true airspeed are zero) and the
+aerodynamic moment in the pitch axis is zero.</p>
+<p>Of course, in reality the vehicle will accelerate, but the flight profile being modeled
+is so benign that assuming steady flight at discrete points (nodes) in the trajectory is
+not terribly inaccurate.</p>
+<p>The thrust coefficient necessary for steady flight is computed by balancing the drag equation</p>
+<div class="math notranslate nohighlight">
+\[C_T = W_{total} * \frac{\sin{\gamma}}{\cos{\alpha} * q \cdot S} + \frac{C_D}{\cos{\alpha}}\]</div>
+<p>The lift coefficient required for steady flight is found by balancing lift and weight:</p>
+<div class="math notranslate nohighlight">
+\[\tilde{C_L} = W_{total} * \frac{\cos{\gamma}}{q \cdot S} - C_T * \sin{\alpha}\]</div>
+<p>Using coefficients in the balance equations is better scaled from a numerical standpoint.</p>
+</div>
+<div class="section" id="propulsion">
+<h3>Propulsion<a class="headerlink" href="#propulsion" title="Permalink to this headline">¶</a></h3>
+<p>Having determined the coefficient of thrust, the propulsion group converts that to an
+actual thrust value. This is, in turn, used to compute the rate of fuel burn.  In addition,
+by normalizing thrust at any point by the maximum possible thrust, we obtain the throttle
+parameter <span class="math notranslate nohighlight">\(\tau\)</span>.  The propulsion group uses a number of components to perform these
+calculations.  First, thrust is computed from the thrust coefficient, dynamic pressure,
+and reference area:</p>
+<div class="math notranslate nohighlight">
+\[T &amp;= C_T \cdot q \cdot S\]</div>
+<p>Maximum thrust is computed by multiplying sea-level thrust by the ratio of pressure to
+sea-level atmospheric pressure.</p>
+<div class="math notranslate nohighlight">
+\[T_{max} = T_{max,sl} \frac{P}{P_{sl}}\]</div>
+<p>The throttle parameter is then the ratio current thrust to maximum possible thrust.</p>
+<div class="math notranslate nohighlight">
+\[\tau = \frac{T}{T_{max}}\]</div>
+<p>The thrust specific fuel consumption is computed as follows:</p>
+<div class="math notranslate nohighlight">
+\[TSFC = TSFC_{sl} - 1.5E-10 \cdot 9.80665 \cdot alt\]</div>
+<p>Finally, fuel burn rate is:</p>
+<div class="math notranslate nohighlight">
+\[\dot{mass_{fuel}} = -TSFC \frac{T}{9.80665}\]</div>
+</div>
+</div>
+<div class="section" id="the-ode-system-aircraft-ode-py">
+<h2>1. The ODE System: aircraft_ode.py<a class="headerlink" href="#the-ode-system-aircraft-ode-py" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AircraftODE</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                             <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Number of nodes to be evaluated in the RHS&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">nn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mass_comp&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">MassComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;mass_comp.W_total&#39;</span><span class="p">,</span> <span class="s1">&#39;flight_equilibrium.W_total&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;atmos&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">USatm1976Comp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;atmos.pres&#39;</span><span class="p">,</span> <span class="s1">&#39;propulsion.pres&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;atmos.sos&#39;</span><span class="p">,</span> <span class="s1">&#39;tas_comp.sos&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;atmos.rho&#39;</span><span class="p">,</span> <span class="s1">&#39;q_comp.rho&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;tas_comp&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">TrueAirspeedComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;tas_comp.TAS&#39;</span><span class="p">,</span>
+                     <span class="p">(</span><span class="s1">&#39;gam_comp.TAS&#39;</span><span class="p">,</span> <span class="s1">&#39;q_comp.TAS&#39;</span><span class="p">,</span> <span class="s1">&#39;range_rate_comp.TAS&#39;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;gam_comp&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">SteadyFlightPathAngleComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;gam_comp.gam&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;flight_equilibrium.gam&#39;</span><span class="p">,</span> <span class="s1">&#39;range_rate_comp.gam&#39;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;q_comp&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">DynamicPressureComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;q_comp.q&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;aero.q&#39;</span><span class="p">,</span> <span class="s1">&#39;flight_equilibrium.q&#39;</span><span class="p">,</span> <span class="s1">&#39;propulsion.q&#39;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flight_equilibrium&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">SteadyFlightEquilibriumGroup</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">),</span>
+                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;aero.*&#39;</span><span class="p">],</span>
+                           <span class="n">promotes_outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;aero.*&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;flight_equilibrium.CT&#39;</span><span class="p">,</span> <span class="s1">&#39;propulsion.CT&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;propulsion&#39;</span><span class="p">,</span> <span class="n">subsys</span><span class="o">=</span><span class="n">PropulsionGroup</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;range_rate_comp&#39;</span><span class="p">,</span> <span class="n">subsys</span><span class="o">=</span><span class="n">RangeRateComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In this case the system has only two integrated states: <cite>range</cite> and <cite>mass_fuel</cite>.  There are six parameters.
+Two of them, <cite>alt</cite> and <cite>climb_rate</cite>, will be varied dynamically in the phase, and the other four,
+<cite>mach</cite>, <cite>S</cite>, <cite>mass_empty</cite>, and <cite>mass_payload</cite>, will be set to fixed values as non-optimized design
+parameters.  More details on the various models involved can be found in the examples code.</p>
+</div>
+<div class="section" id="building-and-running-the-problem">
+<h2>2. Building and running the problem<a class="headerlink" href="#building-and-running-the-problem" title="Permalink to this headline">¶</a></h2>
+<p>In the following code we define and solve the optimal control problem.  Note that we demonstrate
+the use of externally-connected design parameters in this case.  The four design parameters have
+<cite>input_value = True</cite>, and are connected to a source provided by the <cite>assumptions</cite> IndepVarComp.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Problem</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">pyOptSparseDriver</span><span class="p">,</span> <span class="n">IndepVarComp</span>
+<span class="kn">from</span> <span class="nn">openmdao.utils.assert_utils</span> <span class="kn">import</span> <span class="n">assert_rel_error</span>
+
+<span class="kn">import</span> <span class="nn">dymos</span> <span class="kn">as</span> <span class="nn">dm</span>
+
+<span class="kn">from</span> <span class="nn">dymos.examples.aircraft_steady_flight.aircraft_ode</span> <span class="kn">import</span> <span class="n">AircraftODE</span>
+<span class="kn">from</span> <span class="nn">dymos.examples.plotting</span> <span class="kn">import</span> <span class="n">plot_results</span>
+<span class="kn">from</span> <span class="nn">dymos.utils.lgl</span> <span class="kn">import</span> <span class="n">lgl</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Problem</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">Group</span><span class="p">())</span>
+<span class="n">p</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">pyOptSparseDriver</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SLSQP&#39;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;dynamic_simul_derivs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">num_seg</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">seg_ends</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">lgl</span><span class="p">(</span><span class="n">num_seg</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">traj</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;traj&#39;</span><span class="p">,</span> <span class="n">dm</span><span class="o">.</span><span class="n">Trajectory</span><span class="p">())</span>
+
+<span class="n">phase</span> <span class="o">=</span> <span class="n">traj</span><span class="o">.</span><span class="n">add_phase</span><span class="p">(</span><span class="s1">&#39;phase0&#39;</span><span class="p">,</span>
+                       <span class="n">dm</span><span class="o">.</span><span class="n">Phase</span><span class="p">(</span><span class="n">ode_class</span><span class="o">=</span><span class="n">AircraftODE</span><span class="p">,</span>
+                                <span class="n">transcription</span><span class="o">=</span><span class="n">dm</span><span class="o">.</span><span class="n">Radau</span><span class="p">(</span><span class="n">num_segments</span><span class="o">=</span><span class="n">num_seg</span><span class="p">,</span>
+                                                       <span class="n">segment_ends</span><span class="o">=</span><span class="n">seg_ends</span><span class="p">,</span>
+                                                       <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">compressed</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
+
+<span class="c1"># Pass Reference Area from an external source</span>
+<span class="n">assumptions</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;assumptions&#39;</span><span class="p">,</span> <span class="n">IndepVarComp</span><span class="p">())</span>
+<span class="n">assumptions</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">427.8</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**2&#39;</span><span class="p">)</span>
+<span class="n">assumptions</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;mass_empty&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">)</span>
+<span class="n">assumptions</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;mass_payload&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">set_time_options</span><span class="p">(</span><span class="n">initial_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                       <span class="n">duration_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span>
+                       <span class="n">duration_ref</span><span class="o">=</span><span class="mi">5600</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">set_state_options</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;NM&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fix_final</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+                        <span class="n">defect_ref</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">set_state_options</span><span class="p">(</span><span class="s1">&#39;mass_fuel&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;lbm&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fix_final</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                        <span class="n">upper</span><span class="o">=</span><span class="mf">1.5E5</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1e2</span><span class="p">,</span> <span class="n">defect_ref</span><span class="o">=</span><span class="mf">1e2</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">set_state_options</span><span class="p">(</span><span class="s1">&#39;alt&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kft&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fix_final</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                        <span class="n">lower</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">defect_ref</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="s1">&#39;climb_rate&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;ft/min&#39;</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">lower</span><span class="o">=-</span><span class="mi">3000</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+                  <span class="n">rate_continuity</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">rate2_continuity</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="s1">&#39;mach&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">add_input_parameter</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**2&#39;</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_input_parameter</span><span class="p">(</span><span class="s1">&#39;mass_empty&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_input_parameter</span><span class="p">(</span><span class="s1">&#39;mass_payload&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">add_path_constraint</span><span class="p">(</span><span class="s1">&#39;propulsion.tau&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;assumptions.S&#39;</span><span class="p">,</span> <span class="s1">&#39;traj.phase0.input_parameters:S&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;assumptions.mass_empty&#39;</span><span class="p">,</span> <span class="s1">&#39;traj.phase0.input_parameters:mass_empty&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;assumptions.mass_payload&#39;</span><span class="p">,</span> <span class="s1">&#39;traj.phase0.input_parameters:mass_payload&#39;</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="o">=-</span><span class="mf">1.0e-4</span><span class="p">)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.t_initial&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.t_duration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3600.0</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.states:range&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ys</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">724.0</span><span class="p">),</span> <span class="n">nodes</span><span class="o">=</span><span class="s1">&#39;state_input&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.states:mass_fuel&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ys</span><span class="o">=</span><span class="p">(</span><span class="mi">30000</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">),</span> <span class="n">nodes</span><span class="o">=</span><span class="s1">&#39;state_input&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.states:alt&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="mf">10.0</span>
+
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.controls:mach&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="mf">0.8</span>
+
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;assumptions.S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">427.8</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;assumptions.mass_empty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.15E6</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;assumptions.mass_payload&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">84.02869</span> <span class="o">*</span> <span class="mi">400</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">run_driver</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.states:range&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;NM&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">exp_out</span> <span class="o">=</span> <span class="n">traj</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+
+<span class="n">plot_results</span><span class="p">([(</span><span class="s1">&#39;traj.phase0.timeseries.states:range&#39;</span><span class="p">,</span> <span class="s1">&#39;traj.phase0.timeseries.states:alt&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;range (NM)&#39;</span><span class="p">,</span> <span class="s1">&#39;altitude (kft)&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">,</span> <span class="s1">&#39;traj.phase0.timeseries.states:mass_fuel&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;time (s)&#39;</span><span class="p">,</span> <span class="s1">&#39;fuel mass (lbm)&#39;</span><span class="p">)],</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Commercial Aircraft Optimization&#39;</span><span class="p">,</span>
+             <span class="n">p_sol</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">p_sim</span><span class="o">=</span><span class="n">exp_out</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+output only available for HTML
+<div class="figure align-center">
+<img alt="../_images/doc_plot_4.png" src="../_images/doc_plot_4.png" />
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="citation">
+<dt class="label" id="bettsaircraft1995"><span class="brackets"><a class="fn-backref" href="#id1">BettsAircraft1995</a></span></dt>
+<dd><p>Betts, John T., and Evin J. Cramer. “Application of Direct Transcription to Commercial Aircraft Trajectory Optimization.” Journal of Guidance, Control, and Dynamics 18.1 (1995): 151–159.</p>
+</dd>
+<dt class="label" id="seywald1994"><span class="brackets"><a class="fn-backref" href="#id2">Seywald1994</a></span></dt>
+<dd><p>Seywald, Hans. “Trajectory Optimization Based on Differential Inclusion (Revised).” Journal of Guidance, Control, and Dynamics 17.3 (1994): 480–487.</p>
+</dd>
+<dt class="label" id="kumar1996"><span class="brackets"><a class="fn-backref" href="#id4">Kumar1996</a></span></dt>
+<dd><p>Kumar, Renjith R, and Hans Seywald. “Should Controls Be Eliminated While Solving Optimal Control Problems via Direct Methods?” Journal of Guidance, Control, and Dynamics 19.2 (1996): 418–423.</p>
+</dd>
+<dt class="label" id="fahrooross2001"><span class="brackets"><a class="fn-backref" href="#id3">FahrooRoss2001</a></span></dt>
+<dd><p>Fahroo, F., and Ross, I. M., “A Second Look at Approximating Differential Inclusions,” Journal of Guidance, Control, and Dynamics, Vol. 24, No. 1, 2001, pp. 131–133.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="double_integrator.html" title="Double Integrator"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="brachistochrone.html" title="Brachistochrone: A simple optimal control example"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dymos 0.13.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="examples.html" >Dymos by Example</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, National Aeronautics and Space Administration.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

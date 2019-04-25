@@ -1,0 +1,10 @@
+dymos.examples.cannonball
+-------------------------
+
+.. toctree::
+    :maxdepth: 1
+
+    examples.cannonball/cannonball_ode
+    examples.cannonball/cannonball_undecorated_ode
+    examples.cannonball/kinetic_energy_comp
+    examples.cannonball/size_comp

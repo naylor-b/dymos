@@ -1,0 +1,336 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Supersonic Interceptor Minimum Time Climb &#8212; dymos 0.13.0 documentation</title>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multi-Phase Cannonball" href="multi_phase_cannonball.html" />
+    <link rel="prev" title="Two-Burn Orbit Raise" href="finite_burn_orbit_raise.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="multi_phase_cannonball.html" title="Multi-Phase Cannonball"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="finite_burn_orbit_raise.html" title="Two-Burn Orbit Raise"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dymos 0.13.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="examples.html" accesskey="U">Dymos by Example</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Supersonic Interceptor Minimum Time Climb</a><ul>
+<li><a class="reference internal" href="#the-ode-system-min-time-climb-ode-py">1. The ODE System: min_time_climb_ode.py</a></li>
+<li><a class="reference internal" href="#building-and-running-the-problem">2. Building and running the problem</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="finite_burn_orbit_raise.html"
+                        title="previous chapter">Two-Burn Orbit Raise</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="multi_phase_cannonball.html"
+                        title="next chapter">Multi-Phase Cannonball</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/min_time_climb.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="supersonic-interceptor-minimum-time-climb">
+<h1>Supersonic Interceptor Minimum Time Climb<a class="headerlink" href="#supersonic-interceptor-minimum-time-climb" title="Permalink to this headline">¶</a></h1>
+<p>This example is based on the “A/C Min Time to Climb” example given in chapter 4 of <a class="reference internal" href="#brysondynopt" id="id1"><span>[BrysonDynOpt]</span></a>.
+It finds the angle-of-attack history required to accelerate a supersonic interceptor from near
+ground level, Mach 0.4 to an altitude of 20 km and Mach 1.0.</p>
+<a class="reference internal image-reference" href="../_images/min_time_climb_fbd.png"><img alt="The free-body-diagram of the min-time-climb problem." class="align-center" src="../_images/min_time_climb_fbd.png" style="width: 600.0px; height: 600.0px;" /></a>
+<p>The vehicle dynamics are given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{d v}{d t} &amp;= \frac{T}{m} \cos(\alpha) - \frac{D}{m} - g \sin(\gamma) \\
+\frac{d \gamma}{d t} &amp;= \frac{T}{mv} \sin(\alpha) + \frac{L}{mv} - \frac{g \cos(\gamma)}{v} \\
+\frac{d h}{d t} &amp;= v \sin(\gamma) \\
+\frac{d r}{d t} &amp;= v \cos(\gamma) \\
+\frac{d m}{d t} &amp;= -\frac{T}{g I_{sp}}\end{split}\]</div>
+<p>The initial conditions are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}r_0 &amp;= 0 \, \mathrm{m} \\
+h_0 &amp;= 100 \, \mathrm{m} \\
+v_0 &amp;= 135.964 \, \mathrm{m/s} \\
+\gamma_0 &amp;= 0 \, \mathrm{deg} \\
+m_0 &amp;= 19030.468 \, \mathrm{kg}\end{split}\]</div>
+<p>and the final conditions are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}h_f &amp;= 20000 \, \mathrm{m} \\
+M_f &amp;= 1.0 \\
+\gamma_0 &amp;= 0 \, \mathrm{deg}\end{split}\]</div>
+<div class="section" id="the-ode-system-min-time-climb-ode-py">
+<h2>1. The ODE System: min_time_climb_ode.py<a class="headerlink" href="#the-ode-system-min-time-climb-ode-py" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">absolute_import</span>
+
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Group</span>
+
+<span class="kn">from</span> <span class="nn">dymos</span> <span class="kn">import</span> <span class="n">declare_time</span><span class="p">,</span> <span class="n">declare_state</span><span class="p">,</span> <span class="n">declare_parameter</span>
+
+<span class="kn">from</span> <span class="nn">...models.atmosphere</span> <span class="kn">import</span> <span class="n">USatm1976Comp</span>
+<span class="kn">from</span> <span class="nn">.aero</span> <span class="kn">import</span> <span class="n">AeroGroup</span>
+<span class="kn">from</span> <span class="nn">.prop</span> <span class="kn">import</span> <span class="n">PropGroup</span>
+<span class="kn">from</span> <span class="nn">...models.eom</span> <span class="kn">import</span> <span class="n">FlightPathEOM2D</span>
+
+
+<span class="nd">@declare_time</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="nd">@declare_state</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;flight_dynamics.r_dot&#39;</span><span class="p">)</span>
+<span class="nd">@declare_state</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;flight_dynamics.h_dot&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">])</span>
+<span class="nd">@declare_state</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;flight_dynamics.v_dot&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">])</span>
+<span class="nd">@declare_state</span><span class="p">(</span><span class="s1">&#39;gam&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;rad&#39;</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;flight_dynamics.gam_dot&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;gam&#39;</span><span class="p">])</span>
+<span class="nd">@declare_state</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;prop.m_dot&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">])</span>
+<span class="nd">@declare_parameter</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;rad&#39;</span><span class="p">)</span>
+<span class="nd">@declare_parameter</span><span class="p">(</span><span class="s1">&#39;Isp&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Isp&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="nd">@declare_parameter</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**2&#39;</span><span class="p">)</span>
+<span class="nd">@declare_parameter</span><span class="p">(</span><span class="s1">&#39;throttle&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;throttle&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MinTimeClimbODE</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">nn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;atmos&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">USatm1976Comp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">),</span>
+                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;aero&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">AeroGroup</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">),</span>
+                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;atmos.sos&#39;</span><span class="p">,</span> <span class="s1">&#39;aero.sos&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;atmos.rho&#39;</span><span class="p">,</span> <span class="s1">&#39;aero.rho&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;prop&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">PropGroup</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">),</span>
+                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;Isp&#39;</span><span class="p">,</span> <span class="s1">&#39;throttle&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;aero.mach&#39;</span><span class="p">,</span> <span class="s1">&#39;prop.mach&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;flight_dynamics&#39;</span><span class="p">,</span>
+                           <span class="n">subsys</span><span class="o">=</span><span class="n">FlightPathEOM2D</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">nn</span><span class="p">),</span>
+                           <span class="n">promotes_inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;gam&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;aero.f_drag&#39;</span><span class="p">,</span> <span class="s1">&#39;flight_dynamics.D&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;aero.f_lift&#39;</span><span class="p">,</span> <span class="s1">&#39;flight_dynamics.L&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;prop.thrust&#39;</span><span class="p">,</span> <span class="s1">&#39;flight_dynamics.T&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-and-running-the-problem">
+<h2>2. Building and running the problem<a class="headerlink" href="#building-and-running-the-problem" title="Permalink to this headline">¶</a></h2>
+<p>In the following code we follow the following process to solve the problem:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Problem</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">pyOptSparseDriver</span><span class="p">,</span> <span class="n">DirectSolver</span>
+<span class="kn">from</span> <span class="nn">openmdao.utils.assert_utils</span> <span class="kn">import</span> <span class="n">assert_rel_error</span>
+
+<span class="kn">import</span> <span class="nn">dymos</span> <span class="kn">as</span> <span class="nn">dm</span>
+<span class="kn">from</span> <span class="nn">dymos.examples.min_time_climb.min_time_climb_ode</span> <span class="kn">import</span> <span class="n">MinTimeClimbODE</span>
+<span class="kn">from</span> <span class="nn">dymos.examples.plotting</span> <span class="kn">import</span> <span class="n">plot_results</span>
+
+<span class="c1">#</span>
+<span class="c1"># Instantiate the problem and configure the optimization driver</span>
+<span class="c1">#</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">Problem</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">Group</span><span class="p">())</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">pyOptSparseDriver</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SLSQP&#39;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;dynamic_simul_derivs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c1">#</span>
+<span class="c1"># Instantiate the trajectory and phase</span>
+<span class="c1">#</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">Trajectory</span><span class="p">()</span>
+
+<span class="n">phase</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">Phase</span><span class="p">(</span><span class="n">ode_class</span><span class="o">=</span><span class="n">MinTimeClimbODE</span><span class="p">,</span>
+                 <span class="n">transcription</span><span class="o">=</span><span class="n">dm</span><span class="o">.</span><span class="n">GaussLobatto</span><span class="p">(</span><span class="n">num_segments</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">compressed</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+
+<span class="n">traj</span><span class="o">.</span><span class="n">add_phase</span><span class="p">(</span><span class="s1">&#39;phase0&#39;</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;traj&#39;</span><span class="p">,</span> <span class="n">traj</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># Set the options on the optimization variables</span>
+<span class="c1">#</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">set_time_options</span><span class="p">(</span><span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">duration_bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span>
+                       <span class="n">duration_ref</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">set_state_options</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">1.0E6</span><span class="p">,</span>
+                        <span class="n">ref</span><span class="o">=</span><span class="mf">1.0E3</span><span class="p">,</span> <span class="n">defect_ref</span><span class="o">=</span><span class="mf">1.0E3</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">set_state_options</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">20000.0</span><span class="p">,</span>
+                        <span class="n">ref</span><span class="o">=</span><span class="mf">1.0E2</span><span class="p">,</span> <span class="n">defect_ref</span><span class="o">=</span><span class="mf">1.0E2</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">set_state_options</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+                        <span class="n">ref</span><span class="o">=</span><span class="mf">1.0E2</span><span class="p">,</span> <span class="n">defect_ref</span><span class="o">=</span><span class="mf">1.0E2</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">set_state_options</span><span class="p">(</span><span class="s1">&#39;gam&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">lower</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+                        <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">defect_scaler</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;rad&#39;</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">set_state_options</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">1.0E5</span><span class="p">,</span>
+                        <span class="n">ref</span><span class="o">=</span><span class="mf">1.0E3</span><span class="p">,</span> <span class="n">defect_ref</span><span class="o">=</span><span class="mf">1.0E3</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=-</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                  <span class="n">rate_continuity</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">rate_continuity_scaler</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span>
+                  <span class="n">rate2_continuity</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">add_design_parameter</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">49.2386</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m**2&#39;</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_design_parameter</span><span class="p">(</span><span class="s1">&#39;Isp&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1600.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_design_parameter</span><span class="p">(</span><span class="s1">&#39;throttle&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># Setup the boundary and path constraints</span>
+<span class="c1">#</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_boundary_constraint</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">,</span> <span class="n">equals</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">scaler</span><span class="o">=</span><span class="mf">1.0E-3</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_boundary_constraint</span><span class="p">(</span><span class="s1">&#39;aero.mach&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">,</span> <span class="n">equals</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_boundary_constraint</span><span class="p">(</span><span class="s1">&#39;gam&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">,</span> <span class="n">equals</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;rad&#39;</span><span class="p">)</span>
+
+<span class="n">phase</span><span class="o">.</span><span class="n">add_path_constraint</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_path_constraint</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;aero.mach&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+
+<span class="c1"># Minimize time at the end of the phase</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">linear_solver</span> <span class="o">=</span> <span class="n">DirectSolver</span><span class="p">()</span>
+
+<span class="c1">#</span>
+<span class="c1"># Setup the problem and set the initial guess</span>
+<span class="c1">#</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.t_initial&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.t_duration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.states:r&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ys</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">50000.0</span><span class="p">],</span> <span class="n">nodes</span><span class="o">=</span><span class="s1">&#39;state_input&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.states:h&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ys</span><span class="o">=</span><span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">20000.0</span><span class="p">],</span> <span class="n">nodes</span><span class="o">=</span><span class="s1">&#39;state_input&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.states:v&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ys</span><span class="o">=</span><span class="p">[</span><span class="mf">135.964</span><span class="p">,</span> <span class="mf">283.159</span><span class="p">],</span> <span class="n">nodes</span><span class="o">=</span><span class="s1">&#39;state_input&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.states:gam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ys</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">nodes</span><span class="o">=</span><span class="s1">&#39;state_input&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.states:m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ys</span><span class="o">=</span><span class="p">[</span><span class="mf">19030.468</span><span class="p">,</span> <span class="mf">10000.</span><span class="p">],</span> <span class="n">nodes</span><span class="o">=</span><span class="s1">&#39;state_input&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="p">[</span><span class="s1">&#39;traj.phase0.controls:alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ys</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">nodes</span><span class="o">=</span><span class="s1">&#39;control_input&#39;</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># Solve for the optimal trajectory</span>
+<span class="c1">#</span>
+<span class="n">p</span><span class="o">.</span><span class="n">run_driver</span><span class="p">()</span>
+
+<span class="c1">#</span>
+<span class="c1"># Test the results</span>
+<span class="c1">#</span>
+<span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.t_duration&#39;</span><span class="p">))</span>
+
+<span class="c1">#</span>
+<span class="c1"># Get the explicitly simulated solution and plot the results</span>
+<span class="c1">#</span>
+<span class="n">exp_out</span> <span class="o">=</span> <span class="n">traj</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+
+<span class="n">plot_results</span><span class="p">([(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">,</span> <span class="s1">&#39;traj.phase0.timeseries.states:h&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;time (s)&#39;</span><span class="p">,</span> <span class="s1">&#39;altitude (m)&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">,</span> <span class="s1">&#39;traj.phase0.timeseries.controls:alpha&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;time (s)&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha (deg)&#39;</span><span class="p">)],</span>
+             <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Supersonic Minimum Time-to-Climb Solution&#39;</span><span class="p">,</span>
+             <span class="n">p_sol</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">p_sim</span><span class="o">=</span><span class="n">exp_out</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+output only available for HTML
+<div class="figure align-center">
+<img alt="../_images/doc_plot_6.png" src="../_images/doc_plot_6.png" />
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="citation">
+<dt class="label" id="brysondynopt"><span class="brackets"><a class="fn-backref" href="#id1">BrysonDynOpt</a></span></dt>
+<dd><p>Bryson, Arthur Earl. Dynamic optimization. Vol. 1. Prentice Hall, p.172, 1999.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="multi_phase_cannonball.html" title="Multi-Phase Cannonball"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="finite_burn_orbit_raise.html" title="Two-Burn Orbit Raise"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dymos 0.13.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="examples.html" >Dymos by Example</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, National Aeronautics and Space Administration.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>
