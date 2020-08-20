@@ -487,7 +487,7 @@ class SolveIVP(TranscriptionBase):
 
             # Get the design var's real units.
             abs_param = phase.ode._var_allprocs_prom2abs_list['input'][prom_param]
-            units = phase.ode._var_abs2meta[abs_param[0]]['units']
+            units = phase.ode._var_abs2meta['input'][abs_param[0]]['units']
             param_units[name] = units
 
             for iseg in range(num_seg):

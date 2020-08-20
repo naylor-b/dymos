@@ -650,7 +650,7 @@ class GaussLobatto(PseudospectralBase):
 
                     # Get the design var's real units.
                     abs_param = phase.rhs_disc._var_allprocs_prom2abs_list['input'][prom_param]
-                    units = phase.rhs_disc._var_abs2meta[abs_param[0]]['units']
+                    units = phase.rhs_disc._var_abs2meta['input'][abs_param[0]]['units']
 
                     # Add output.
                     timeseries_comp = phase._get_subsystem(name)
