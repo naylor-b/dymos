@@ -455,7 +455,7 @@ class TranscriptionBase(object):
 
                 val = options['val']
                 _shape = options['shape']
-                shaped_val = np.broadcast_to(val, _shape)
+                shaped_val = np.broadcast_to(val, _shape).copy()
                 phase.set_input_defaults(name=prom_name,
                                          val=shaped_val,
                                          units=options['units'])
