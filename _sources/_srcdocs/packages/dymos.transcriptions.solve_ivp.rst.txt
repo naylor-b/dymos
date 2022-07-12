@@ -1,7 +1,0 @@
-dymos.transcriptions.solve_ivp
-------------------------------
-
-.. toctree::
-    :maxdepth: 1
-
-    transcriptions.solve_ivp/solve_ivp

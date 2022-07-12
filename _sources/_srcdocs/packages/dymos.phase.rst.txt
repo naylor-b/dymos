@@ -1,8 +1,0 @@
-dymos.phase
------------
-
-.. toctree::
-    :maxdepth: 1
-
-    phase/options
-    phase/phase

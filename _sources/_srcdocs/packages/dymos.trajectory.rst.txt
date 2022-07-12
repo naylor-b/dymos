@@ -1,7 +1,0 @@
-dymos.trajectory
-----------------
-
-.. toctree::
-    :maxdepth: 1
-
-    trajectory/trajectory

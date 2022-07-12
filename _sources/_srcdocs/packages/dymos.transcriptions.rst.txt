@@ -1,8 +1,0 @@
-dymos.transcriptions
---------------------
-
-.. toctree::
-    :maxdepth: 1
-
-    transcriptions/grid_data
-    transcriptions/transcription_base

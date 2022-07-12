@@ -1,9 +1,0 @@
-dymos.transcriptions.pseudospectral
------------------------------------
-
-.. toctree::
-    :maxdepth: 1
-
-    transcriptions.pseudospectral/gauss_lobatto
-    transcriptions.pseudospectral/pseudospectral_base
-    transcriptions.pseudospectral/radau_pseudospectral

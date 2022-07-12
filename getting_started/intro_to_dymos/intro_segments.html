@@ -1,0 +1,1259 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Segments of Phases &#8212; Dymos</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/myfile.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Dymos by Example" href="../../examples/examples.html" />
+    <link rel="prev" title="Modeling Dynamic Systems with Dymos" href="intro_ivp.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/dymos_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Dymos</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    Multidisciplinary Optimal Control Library
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Installation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../installation.html">
+   Installing Dymos
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../optimal_control.html">
+   Optimal Control
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../transcriptions.html">
+   Optimal Control Transcriptions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../defining_odes.html">
+   Defining ODEs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../collocation.html">
+   What is collocation?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_ivp.html">
+   Modeling Dynamic Systems with Dymos
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Segments of Phases
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Examples and Tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../examples/examples.html">
+   Dymos by Example
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/brachistochrone/brachistochrone.html">
+     The Brachistochrone
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/brachistochrone/brachistochrone_upstream_init_duration_states.html">
+     The Brachistochrone with externally-sourced initial state values
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/vanderpol/vanderpol.html">
+     The Van der Pol Oscillator
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/balanced_field/balanced_field.html">
+     Aircraft Balanced Field Length Calculation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/balanced_field/balanced_field_funccomp.html">
+     Balanced Field Length using OpenMDAO’s Function Wrapping Components.
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/bryson_denham/bryson_denham.html">
+     The Bryson-Denham Problem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/commercial_aircraft/commercial_aircraft.html">
+     Commercial Aircraft Range Maximization by Differential Inclusion
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/double_integrator/double_integrator.html">
+     Double Integrator
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/hypersensitive/hypersensitive.html">
+     Hyper-Sensitive Problem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/finite_burn_orbit_raise/finite_burn_orbit_raise.html">
+     Two-Burn Orbit Raise
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/length_constrained_brachistochrone/length_constrained_brachistochrone.html">
+     The Length-Constrained Brachistochrone
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/min_time_climb/min_time_climb.html">
+     Supersonic Interceptor Minimum Time Climb
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/mountain_car/mountain_car.html">
+     The Mountain Car Problem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/multi_phase_cannonball/multi_phase_cannonball.html">
+     Multi-Phase Cannonball
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/multibranch_trajectory/multibranch_trajectory.html">
+     Multibranch Trajectory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/racecar/racecar.html">
+     Race car Lap Simulation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/reentry/reentry.html">
+     Single-Phase Space Shuttle Reentry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/ssto_earth/ssto_earth.html">
+     SSTO Earth Launch
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/ssto_moon_linear_tangent/ssto_moon_linear_tangent.html">
+     SSTO Lunar Ascent with Linear Tangent Guidance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/ssto_moon_polynomial_controls/ssto_moon_polynomial_controls.html">
+     SSTO Lunar Ascent with Polynomial Controls
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/robertson_problem/robertson_problem.html">
+     The Robertson Problem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../examples/water_rocket/water_rocket.html">
+     Water Rocket
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Feature Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../features/phases/phases_list.html">
+   Phases
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../features/phases/phases.html">
+     Phases of a Trajectory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../features/phases/segments.html">
+     Segments
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../features/phases/variables.html">
+     Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../features/phases/constraints.html">
+     Constraints
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../features/phases/objective.html">
+     Objective
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../features/phases/timeseries.html">
+     Timeseries Outputs
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../features/trajectories/trajectories.html">
+   Organizing Phases into Trajectories
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../features/exploiting_sparsity.html">
+   Exploiting Sparsity for Faster Derivative Calculation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../features/plotting.html">
+   Plotting Timeseries
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Frequently Asked Questions
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../faq/faq.html">
+   Frequently Asked Questions
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../faq/add_ode_output_to_timeseries.html">
+     How do I add an ODE output to the timeseries outputs?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../faq/connect_scalar_parameters_to_ode.html">
+     How do I connect a scalar input to the ODE?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../faq/upstream_analysis.html">
+     How do connect the outputs of an upstream analysis as inputs to Dymos?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../faq/downstream_analysis.html">
+     How do connect the outputs of Dymos to a downstream analysis?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../faq/tandem_phases.html">
+     How do I run two phases parallel-in-time?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../faq/use_partial_coloring.html">
+     How can I more efficiently use finite-differenced components in the ODE?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../faq/debugging.html">
+     How can I debug models when things go wrong?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Dymos API Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../api/api.html">
+   Dymos Reference API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../api/run_problem.html">
+     The Dymos run_problem function
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../api/phase_api.html">
+     The Phase API
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../api/transcriptions_api.html">
+     The Transcriptions API
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../api/trajectory_api.html">
+     The Trajectory API
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contributing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../contributing/contributing.html">
+   Contributing to Dymos
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OpenMDAO/dymos/master?urlpath=tree/docs/getting_started/intro_to_dymos/intro_segments.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/OpenMDAO/dymos/blob/master/docs/getting_started/intro_to_dymos/intro_segments.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OpenMDAO/dymos"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OpenMDAO/dymos/issues/new?title=Issue%20on%20page%20%2Fgetting_started/intro_to_dymos/intro_segments.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/getting_started/intro_to_dymos/intro_segments.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-are-segments">
+   What are segments?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-does-the-number-and-order-of-segments-affect-the-solution">
+   How does the number and order of segments affect the solution?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#letting-dymos-automatically-find-the-right-segmentation-of-the-phase">
+   Letting Dymos automatically find the right segmentation of the phase
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Segments of Phases</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-are-segments">
+   What are segments?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-does-the-number-and-order-of-segments-affect-the-solution">
+   How does the number and order of segments affect the solution?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#letting-dymos-automatically-find-the-right-segmentation-of-the-phase">
+   Letting Dymos automatically find the right segmentation of the phase
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="cell tag_active-ipynb tag_remove-input tag_remove-output docutils container">
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="segments-of-phases">
+<h1>Segments of Phases<a class="headerlink" href="#segments-of-phases" title="Permalink to this headline">#</a></h1>
+<div class="admonition-things-you-ll-learn-through-this-example admonition">
+<p class="admonition-title">Things you’ll learn through this example</p>
+<ul class="simple">
+<li><p>What are segments?</p></li>
+<li><p>How does the number and order of segments affect the solution?</p></li>
+<li><p>How to use the Dymos run_problem function to find the right number of segments automatically.</p></li>
+</ul>
+</div>
+<section id="what-are-segments">
+<h2>What are segments?<a class="headerlink" href="#what-are-segments" title="Permalink to this headline">#</a></h2>
+<p>In the previous section we showed a converged trajectory that didn’t really match the state propagation found using Scipy’s variable step <code class="docutils literal notranslate"><span class="pre">solve_ivp</span></code> method.</p>
+<div class="cell tag_remove-input tag_hide-output docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.output_html .hll { background-color: #ffffcc }
+.output_html { background: #f8f8f8; }
+.output_html .c { color: #3D7B7B; font-style: italic } /* Comment */
+.output_html .err { border: 1px solid #FF0000 } /* Error */
+.output_html .k { color: #008000; font-weight: bold } /* Keyword */
+.output_html .o { color: #666666 } /* Operator */
+.output_html .ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
+.output_html .cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
+.output_html .cp { color: #9C6500 } /* Comment.Preproc */
+.output_html .cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
+.output_html .c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
+.output_html .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
+.output_html .gd { color: #A00000 } /* Generic.Deleted */
+.output_html .ge { font-style: italic } /* Generic.Emph */
+.output_html .gr { color: #E40000 } /* Generic.Error */
+.output_html .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.output_html .gi { color: #008400 } /* Generic.Inserted */
+.output_html .go { color: #717171 } /* Generic.Output */
+.output_html .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.output_html .gs { font-weight: bold } /* Generic.Strong */
+.output_html .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.output_html .gt { color: #0044DD } /* Generic.Traceback */
+.output_html .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.output_html .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.output_html .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.output_html .kp { color: #008000 } /* Keyword.Pseudo */
+.output_html .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.output_html .kt { color: #B00040 } /* Keyword.Type */
+.output_html .m { color: #666666 } /* Literal.Number */
+.output_html .s { color: #BA2121 } /* Literal.String */
+.output_html .na { color: #687822 } /* Name.Attribute */
+.output_html .nb { color: #008000 } /* Name.Builtin */
+.output_html .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.output_html .no { color: #880000 } /* Name.Constant */
+.output_html .nd { color: #AA22FF } /* Name.Decorator */
+.output_html .ni { color: #717171; font-weight: bold } /* Name.Entity */
+.output_html .ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
+.output_html .nf { color: #0000FF } /* Name.Function */
+.output_html .nl { color: #767600 } /* Name.Label */
+.output_html .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.output_html .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.output_html .nv { color: #19177C } /* Name.Variable */
+.output_html .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.output_html .w { color: #bbbbbb } /* Text.Whitespace */
+.output_html .mb { color: #666666 } /* Literal.Number.Bin */
+.output_html .mf { color: #666666 } /* Literal.Number.Float */
+.output_html .mh { color: #666666 } /* Literal.Number.Hex */
+.output_html .mi { color: #666666 } /* Literal.Number.Integer */
+.output_html .mo { color: #666666 } /* Literal.Number.Oct */
+.output_html .sa { color: #BA2121 } /* Literal.String.Affix */
+.output_html .sb { color: #BA2121 } /* Literal.String.Backtick */
+.output_html .sc { color: #BA2121 } /* Literal.String.Char */
+.output_html .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.output_html .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.output_html .s2 { color: #BA2121 } /* Literal.String.Double */
+.output_html .se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
+.output_html .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.output_html .si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
+.output_html .sx { color: #008000 } /* Literal.String.Other */
+.output_html .sr { color: #A45A77 } /* Literal.String.Regex */
+.output_html .s1 { color: #BA2121 } /* Literal.String.Single */
+.output_html .ss { color: #19177C } /* Literal.String.Symbol */
+.output_html .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.output_html .fm { color: #0000FF } /* Name.Function.Magic */
+.output_html .vc { color: #19177C } /* Name.Variable.Class */
+.output_html .vg { color: #19177C } /* Name.Variable.Global */
+.output_html .vi { color: #19177C } /* Name.Variable.Instance */
+.output_html .vm { color: #19177C } /* Name.Variable.Magic */
+.output_html .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OscillatorODE</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">ExplicitComponent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Dymos ODE for a damped harmonic oscillator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">nn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nn</span><span class="p">,),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;displacement&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nn</span><span class="p">,),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;velocity&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nn</span><span class="p">,),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;spring constant&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;N/m&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nn</span><span class="p">,),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;damping coefficient&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;N*s/m&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nn</span><span class="p">,),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">)</span>
+
+        <span class="c1"># self.add_output(&#39;x_dot&#39;, val=np.zeros(nn), desc=&#39;rate of change of displacement&#39;, units=&#39;m/s&#39;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;v_dot&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nn</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;rate of change of velocity&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s**2&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="n">of</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fd&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">]</span>
+
+        <span class="n">f_spring</span> <span class="o">=</span> <span class="o">-</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">f_damper</span> <span class="o">=</span> <span class="o">-</span><span class="n">c</span> <span class="o">*</span> <span class="n">v</span>
+
+        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;v_dot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">f_spring</span> <span class="o">+</span> <span class="n">f_damper</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span>
+</pre></div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="k">as</span> <span class="nn">om</span>
+<span class="kn">import</span> <span class="nn">dymos</span> <span class="k">as</span> <span class="nn">dm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">dymos.examples.oscillator.doc.oscillator_ode</span> <span class="kn">import</span> <span class="n">OscillatorODE</span>
+
+<span class="c1"># Instantiate an OpenMDAO Problem instance.</span>
+<span class="n">prob</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">Problem</span><span class="p">()</span>
+
+<span class="c1"># Instantiate a Dymos Trajectory and add it to the Problem model.</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">Trajectory</span><span class="p">()</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;traj&#39;</span><span class="p">,</span> <span class="n">traj</span><span class="p">)</span>
+
+<span class="c1"># Instantiate a Phase and add it to the Trajectory.</span>
+<span class="c1"># Here the transcription is necessary but not particularly relevant.</span>
+<span class="n">phase</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">Phase</span><span class="p">(</span><span class="n">ode_class</span><span class="o">=</span><span class="n">OscillatorODE</span><span class="p">,</span> <span class="n">transcription</span><span class="o">=</span><span class="n">dm</span><span class="o">.</span><span class="n">Radau</span><span class="p">(</span><span class="n">num_segments</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">traj</span><span class="o">.</span><span class="n">add_phase</span><span class="p">(</span><span class="s1">&#39;phase0&#39;</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+
+<span class="c1"># Tell Dymos the states to be propagated using the given ODE.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_state</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;v_dot&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_state</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+
+<span class="c1"># The spring constant, damping coefficient, and mass are inputs to the system</span>
+<span class="c1"># that are constant throughout the phase.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;N/m&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">])</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;N*s/m&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">])</span>
+
+<span class="c1"># Setup the OpenMDAO problem</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+
+<span class="c1"># Assign values to the times and states</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.t_initial&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.t_duration&#39;</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">)</span>
+
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.states:x&#39;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.states:v&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:k&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:c&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:m&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># Perform a single execution of the model (executing the model is required before simulation).</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">run_model</span><span class="p">()</span>
+
+<span class="c1"># Perform an explicit simulation of our ODE from the initial conditions.</span>
+<span class="n">sim_out</span> <span class="o">=</span> <span class="n">traj</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">times_per_seg</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Plot the state values obtained from the phase timeseries objects in the simulation output.</span>
+<span class="n">t_sol</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">)</span>
+<span class="n">t_sim</span> <span class="o">=</span> <span class="n">sim_out</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">)</span>
+
+<span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_sol</span><span class="p">,</span> <span class="n">prob</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;traj.phase0.timeseries.states:</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_sim</span><span class="p">,</span> <span class="n">sim_out</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;traj.phase0.timeseries.states:</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time (s)&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="s1">&#39;solution&#39;</span><span class="p">,</span> <span class="s1">&#39;simulation&#39;</span><span class="p">),</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Constraint Report [traj] ---
+    --- phase0 ---
+        None
+
+
+Simulating trajectory traj
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done simulating trajectory traj
+</pre></div>
+</div>
+<img alt="../../_images/intro_segments_3_2.png" src="../../_images/intro_segments_3_2.png" />
+</div>
+</div>
+<p>Why does this happen?
+The implicit collocation techniques used by Dymos (the Radau Pseudospectral Method and Legendre-Gauss-Lobatto collocation) work by discretizing a continuous function (the state time-history) into a series of discrete points.
+It does this by breaking the time domain of each phase into multiple polynomial <em>segments</em>.
+On each segment, each state is treated as a continuous polynomial of some given order.
+In Dymos, segments must have an order of <strong>at least 3</strong>.  That is also the default order for segments.</p>
+</section>
+<section id="how-does-the-number-and-order-of-segments-affect-the-solution">
+<h2>How does the number and order of segments affect the solution?<a class="headerlink" href="#how-does-the-number-and-order-of-segments-affect-the-solution" title="Permalink to this headline">#</a></h2>
+<p>Obviously, a single third-order polynomial won’t be able to fit highly oscillator behavior.
+In this case, our guess of using four segments (equally spaced) in the phase wasn’t quite sufficient.
+Let’s try increasing that number to ten third-order segments.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="k">as</span> <span class="nn">om</span>
+<span class="kn">import</span> <span class="nn">dymos</span> <span class="k">as</span> <span class="nn">dm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">dymos.examples.oscillator.doc.oscillator_ode</span> <span class="kn">import</span> <span class="n">OscillatorODE</span>
+
+<span class="c1"># Instantiate an OpenMDAO Problem instance.</span>
+<span class="n">prob</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">Problem</span><span class="p">()</span>
+
+<span class="c1"># We need an optimization driver.  To solve this simple problem ScipyOptimizerDriver will work.</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">ScipyOptimizeDriver</span><span class="p">()</span>
+
+<span class="c1"># Instantiate a Dymos Trajectory and add it to the Problem model.</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">Trajectory</span><span class="p">()</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;traj&#39;</span><span class="p">,</span> <span class="n">traj</span><span class="p">)</span>
+
+<span class="c1"># Instantiate a Phase and add it to the Trajectory.</span>
+<span class="n">phase</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">Phase</span><span class="p">(</span><span class="n">ode_class</span><span class="o">=</span><span class="n">OscillatorODE</span><span class="p">,</span> <span class="n">transcription</span><span class="o">=</span><span class="n">dm</span><span class="o">.</span><span class="n">Radau</span><span class="p">(</span><span class="n">num_segments</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">traj</span><span class="o">.</span><span class="n">add_phase</span><span class="p">(</span><span class="s1">&#39;phase0&#39;</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+
+<span class="c1"># Tell Dymos that the duration of the phase is bounded.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">set_time_options</span><span class="p">(</span><span class="n">fix_initial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fix_duration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Tell Dymos the states to be propagated using the given ODE.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_state</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_state</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;v_dot&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+
+<span class="c1"># The spring constant, damping coefficient, and mass are inputs to the system that</span>
+<span class="c1"># are constant throughout the phase.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;N/m&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">])</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;N*s/m&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">])</span>
+
+<span class="c1"># Since we&#39;re using an optimization driver, an objective is required.  We&#39;ll minimize</span>
+<span class="c1"># the final time in this case.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">)</span>
+
+<span class="c1"># Setup the OpenMDAO problem</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+
+<span class="c1"># Assign values to the times and states</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.t_initial&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.t_duration&#39;</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">)</span>
+
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.states:x&#39;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.states:v&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:k&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:c&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:m&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># Now we&#39;re using the optimization driver to iteratively run the model and vary the</span>
+<span class="c1"># phase duration until the final y value is 0.</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">run_driver</span><span class="p">()</span>
+
+<span class="c1"># Perform an explicit simulation of our ODE from the initial conditions.</span>
+<span class="n">sim_out</span> <span class="o">=</span> <span class="n">traj</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">times_per_seg</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Plot the state values obtained from the phase timeseries objects in the simulation output.</span>
+<span class="n">t_sol</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">)</span>
+<span class="n">t_sim</span> <span class="o">=</span> <span class="n">sim_out</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">)</span>
+
+<span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_sol</span><span class="p">,</span> <span class="n">prob</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;traj.phase0.timeseries.states:</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_sim</span><span class="p">,</span> <span class="n">sim_out</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;traj.phase0.timeseries.states:</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time (s)&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="s1">&#39;solution&#39;</span><span class="p">,</span> <span class="s1">&#39;simulation&#39;</span><span class="p">),</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Constraint Report [traj] ---
+    --- phase0 ---
+        None
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully    (Exit mode 0)
+            Current function value: [15.]
+            Iterations: 1
+            Function evaluations: 2
+            Gradient evaluations: 1
+Optimization Complete
+-----------------------------------
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/share/miniconda/envs/test/lib/python3.10/site-packages/openmdao/core/total_jac.py:1567: DerivativesWarning:Constraints or objectives [(&#39;traj.phases.phase0.time.time&#39;, inds=[39])] cannot be impacted by the design variables of the problem.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulating trajectory traj
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done simulating trajectory traj
+</pre></div>
+</div>
+<img alt="../../_images/intro_segments_5_5.png" src="../../_images/intro_segments_5_5.png" />
+</div>
+</div>
+<p>Alternatively, we could stick with 4 segments but give each a higher order (7 in this case).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="k">as</span> <span class="nn">om</span>
+<span class="kn">import</span> <span class="nn">dymos</span> <span class="k">as</span> <span class="nn">dm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">dymos.examples.oscillator.doc.oscillator_ode</span> <span class="kn">import</span> <span class="n">OscillatorODE</span>
+
+<span class="c1"># Instantiate an OpenMDAO Problem instance.</span>
+<span class="n">prob</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">Problem</span><span class="p">()</span>
+
+<span class="c1"># We need an optimization driver.  To solve this simple problem ScipyOptimizerDriver will work.</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">om</span><span class="o">.</span><span class="n">ScipyOptimizeDriver</span><span class="p">()</span>
+
+<span class="c1"># Instantiate a Dymos Trajectory and add it to the Problem model.</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">Trajectory</span><span class="p">()</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;traj&#39;</span><span class="p">,</span> <span class="n">traj</span><span class="p">)</span>
+
+<span class="c1"># Instantiate a Phase and add it to the Trajectory.</span>
+<span class="n">phase</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">Phase</span><span class="p">(</span><span class="n">ode_class</span><span class="o">=</span><span class="n">OscillatorODE</span><span class="p">,</span> <span class="n">transcription</span><span class="o">=</span><span class="n">dm</span><span class="o">.</span><span class="n">Radau</span><span class="p">(</span><span class="n">num_segments</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">7</span><span class="p">))</span>
+<span class="n">traj</span><span class="o">.</span><span class="n">add_phase</span><span class="p">(</span><span class="s1">&#39;phase0&#39;</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+
+<span class="c1"># Tell Dymos that the duration of the phase is bounded.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">set_time_options</span><span class="p">(</span><span class="n">fix_initial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fix_duration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Tell Dymos the states to be propagated using the given ODE.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_state</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_state</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">fix_initial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rate_source</span><span class="o">=</span><span class="s1">&#39;v_dot&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;m/s&#39;</span><span class="p">)</span>
+
+<span class="c1"># The spring constant, damping coefficient, and mass are inputs to the system that are</span>
+<span class="c1"># constant throughout the phase.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;N/m&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">])</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;N*s/m&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kg&#39;</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">])</span>
+
+<span class="c1"># Since we&#39;re using an optimization driver, an objective is required.  We&#39;ll minimize</span>
+<span class="c1"># the final time in this case.</span>
+<span class="n">phase</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">)</span>
+
+<span class="c1"># Setup the OpenMDAO problem</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+
+<span class="c1"># Assign values to the times and states</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.t_initial&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.t_duration&#39;</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">)</span>
+
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.states:x&#39;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.states:v&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:k&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:c&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">set_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.parameters:m&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># Now we&#39;re using the optimization driver to iteratively run the model and vary the</span>
+<span class="c1"># phase duration until the final y value is 0.</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">run_driver</span><span class="p">()</span>
+
+<span class="c1"># Perform an explicit simulation of our ODE from the initial conditions.</span>
+<span class="n">sim_out</span> <span class="o">=</span> <span class="n">traj</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">times_per_seg</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Plot the state values obtained from the phase timeseries objects in the simulation output.</span>
+<span class="n">t_sol</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">)</span>
+<span class="n">t_sim</span> <span class="o">=</span> <span class="n">sim_out</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="s1">&#39;traj.phase0.timeseries.time&#39;</span><span class="p">)</span>
+
+<span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_sol</span><span class="p">,</span> <span class="n">prob</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;traj.phase0.timeseries.states:</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_sim</span><span class="p">,</span> <span class="n">sim_out</span><span class="o">.</span><span class="n">get_val</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;traj.phase0.timeseries.states:</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time (s)&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="s1">&#39;solution&#39;</span><span class="p">,</span> <span class="s1">&#39;simulation&#39;</span><span class="p">),</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Constraint Report [traj] ---
+    --- phase0 ---
+        None
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimization terminated successfully    (Exit mode 0)
+            Current function value: [15.]
+            Iterations: 1
+            Function evaluations: 2
+            Gradient evaluations: 1
+Optimization Complete
+-----------------------------------
+
+Simulating trajectory traj
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/share/miniconda/envs/test/lib/python3.10/site-packages/openmdao/core/total_jac.py:1567: DerivativesWarning:Constraints or objectives [(&#39;traj.phases.phase0.time.time&#39;, inds=[31])] cannot be impacted by the design variables of the problem.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done simulating trajectory traj
+</pre></div>
+</div>
+<img alt="../../_images/intro_segments_7_4.png" src="../../_images/intro_segments_7_4.png" />
+</div>
+</div>
+<p>In both these cases, we obtained a better match of the dynamics using either more segments or higher-order segments. This gives the state interpolating polynomials enough freedom to more accurately match the true behavior of the system. Increasing the number of segments and increasing the segment orders both increase the number of discrete points, and thus slow down the solution a bit. Theres a balance to be found between using enough discretization points to get an accurate solution, and slowing down the analysis due to having an overabundance of points. In general, using a high number of low-order segments is preferable to using fewer high-order segments because it makes the constraint jacobian more sparse.</p>
+<p>In addition to the number and order of the segments, the user can also provide the transcription the argument <code class="docutils literal notranslate"><span class="pre">segment_ends</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the segments are equally distributed in time throughout the phase. Otherwise, <code class="docutils literal notranslate"><span class="pre">segment_ends</span></code> should be a monotonically increasing sequence of length <code class="docutils literal notranslate"><span class="pre">num_segments</span> <span class="pre">+</span> <span class="pre">1</span></code>.</p>
+<p>Each element in the sequence provides the location of a segment boundary in the phase.
+The items in <code class="docutils literal notranslate"><span class="pre">segment_ends</span></code> are normalized by Dymos, so feel free to provide them in whatever scale makes sense.
+That is, <code class="docutils literal notranslate"><span class="pre">segment_ends=[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">5]</span></code> is equivalent to <code class="docutils literal notranslate"><span class="pre">segment_ends=[10,</span> <span class="pre">20,</span> <span class="pre">30,</span> <span class="pre">60]</span></code>.</p>
+</section>
+<section id="letting-dymos-automatically-find-the-right-segmentation-of-the-phase">
+<h2>Letting Dymos automatically find the right segmentation of the phase<a class="headerlink" href="#letting-dymos-automatically-find-the-right-segmentation-of-the-phase" title="Permalink to this headline">#</a></h2>
+<p>Manually tweaking the “grid” (the number of segments, their order, and relative spacing) isn’t ideal.
+In reality, another nested level of iteration is required:</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Problem.run_model()</span></code> evaluates the model and computes constraints and objectives based on the current design variables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Problem.run_driver()</span></code> iteratively calls <code class="docutils literal notranslate"><span class="pre">Problem.run_model()</span></code> while varying the design variables in order to find a feasible, optimal design point.</p></li>
+<li><p>Some “outer” function iterates on <code class="docutils literal notranslate"><span class="pre">run_driver()</span></code>, varying the grid until a satisfactory accuracy is achieved.</p></li>
+</ol>
+<p>This third level is filled by the role of automated grid refinement via the <code class="docutils literal notranslate"><span class="pre">dymos.run_problem</span></code>.  In the next section, we’ll learn how to use automated grid refinement in Dymos.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./getting_started/intro_to_dymos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="intro_ivp.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Modeling Dynamic Systems with Dymos</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../../examples/examples.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Dymos by Example</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Dymos Development Team<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
