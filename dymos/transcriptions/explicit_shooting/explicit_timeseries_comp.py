@@ -110,9 +110,8 @@ class ExplicitTimeseriesComp(TimeseriesOutputCompBase):
 
         # There's a chance that the input for this output was pulled from another variable with
         # different units, so account for that with a conversion.
-        if None in {input_units, units}:
+        if input_units is None or units is None:
             scale = 1.0
-            offset = 0
         else:
             scale, offset = unit_conversion(input_units, units)
             self._conversion_factors[output_name] = scale, offset

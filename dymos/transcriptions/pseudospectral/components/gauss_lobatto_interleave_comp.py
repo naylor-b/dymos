@@ -149,7 +149,7 @@ class GaussLobattoInterleaveComp(om.ExplicitComponent):
         disc_idxs = self.options['grid_data'].subset_node_indices['state_disc']
         col_idxs = self.options['grid_data'].subset_node_indices['col']
 
-        for name, varnames in self._varnames.items():
+        for varnames in self._varnames.values():
             allname = varnames['all']
             outputs[allname][disc_idxs] = inputs[varnames['state_disc']]
             outputs[allname][col_idxs] = inputs[varnames['col']]

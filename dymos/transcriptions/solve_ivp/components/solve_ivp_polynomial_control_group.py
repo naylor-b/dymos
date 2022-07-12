@@ -134,7 +134,7 @@ class SolveIVPLGLPolynomialControlComp(om.ExplicitComponent):
                                   wrt=self._input_names[name],
                                   rows=rs, cols=cs, val=self.val_jacs[name][rs, cs])
 
-            rs = np.concatenate([np.arange(0, num_nodes * size, size, dtype=int) + i
+            rs = np.concatenate([np.arange(i, num_nodes * size + i, size, dtype=int)
                                  for i in range(size)])
 
             self.declare_partials(of=self._output_rate_names[name],
@@ -162,12 +162,11 @@ class SolveIVPLGLPolynomialControlComp(om.ExplicitComponent):
         outputs : `Vector`
             `Vector` containing outputs.
         """
-        dt_dptau = 0.5 * inputs['t_duration']
+        invals = inputs.values()
+        dt_dptau = 0.5 * next(invals)
 
-        for name, options in self.options['polynomial_control_options'].items():
+        for name, u in zip(self.options['polynomial_control_options'], invals):
             L_do, D_do, D2_do = self._matrices[name]
-
-            u = inputs[self._input_names[name]]
 
             a = np.tensordot(D_do, u, axes=(1, 0)).T
             b = np.tensordot(D2_do, u, axes=(1, 0)).T

@@ -97,7 +97,6 @@ class CoerceDesvar(object):
 
         if desvar_indices is None:
             mask = None
-            # desvar_indices = list(range(size * num_input_nodes))
 
             if fix_initial:
                 mask = np.ones(size * num_input_nodes, dtype=bool)
@@ -105,10 +104,7 @@ class CoerceDesvar(object):
                     # TODO: this block is currently not being tested (no coverage)
                     idxs_to_fix = np.where(np.asarray(fix_initial))[0]
                     mask[idxs_to_fix] = False
-                    # for idx_to_fix in reversed(sorted(idxs_to_fix)):
-                    #     del desvar_indices[idx_to_fix]
                 else:
-                    # del desvar_indices[:size]
                     mask[:size] = False
 
             if fix_final:
@@ -118,18 +114,16 @@ class CoerceDesvar(object):
                     # TODO: this block is currently not being tested (no coverage)
                     idxs_to_fix = np.where(np.asarray(fix_final))[0]
                     mask[idxs_to_fix - size] = False
-                    # for idx_to_fix in reversed(sorted(idxs_to_fix)):
-                    #     del desvar_indices[-size + idx_to_fix]
                 else:
-                    # del desvar_indices[-size:]
                     mask[-size:] = False
 
             if mask is None:
-                desvar_indices = np.arange(size * num_input_nodes)
+                self.desvar_indices = np.arange(size * num_input_nodes)
             else:
-                desvar_indices = np.nonzero(mask)[0]
+                self.desvar_indices = np.nonzero(mask)[0]
+        else:
+            self.desvar_indices = desvar_indices
 
-        self.desvar_indices = desvar_indices
         self.options = options
 
     def __call__(self, option):
