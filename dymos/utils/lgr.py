@@ -1,6 +1,10 @@
+
+from functools import lru_cache
+
 import numpy as np
 
 
+@lru_cache(maxsize=20)
 def lgr(n, include_endpoint=False, tol=1.0E-15):
     """
     Returns the Legendre-Gauss-Radau nodes and weights for a Jacobi Polynomial with n abscissae.
@@ -81,7 +85,7 @@ def lgr(n, include_endpoint=False, tol=1.0E-15):
     xold = np.ones_like(x)
 
     # Free abscissae
-    free = np.arange(1, n1)
+    free = slice(1, n1)
 
     for i in range(100):
         if np.all(np.abs(x - xold) <= tol):

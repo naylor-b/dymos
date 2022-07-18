@@ -641,6 +641,7 @@ class SolveIVP(TranscriptionBase):
             units = ts_output['units']
             wildcard_units = ts_output['wildcard_units']
             shape = ts_output['shape']
+            is_rate = ts_output['is_rate']
 
             if '*' in var:  # match outputs from the ODE
                 # TODO: is filter still case INSENSTIVE on windows?  If so, fix this
@@ -676,7 +677,8 @@ class SolveIVP(TranscriptionBase):
                 shape, units = get_source_metadata(ode_outputs, src=v, user_shape=shape, user_units=units)
 
                 try:
-                    timeseries_comp._add_output_configure(output_name, shape=shape, units=units, desc='')
+                    timeseries_comp._add_output_configure(output_name, shape=shape, units=units,
+                                                          desc='', rate=is_rate)
                 except ValueError as e:  # OK if it already exists
                     if 'already exists' in str(e):
                         continue

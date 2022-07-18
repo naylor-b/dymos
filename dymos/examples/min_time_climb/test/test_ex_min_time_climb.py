@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
-from numpy.polynomial import Polynomial as P
+from numpy.polynomial import Polynomial
+
 import openmdao.api as om
 from openmdao.utils.assert_utils import assert_near_equal
 import dymos as dm
@@ -166,30 +167,25 @@ class TestMinTimeClimb(unittest.TestCase):
             axes[1].set_ylabel('Mach rate (1/s)')
             axes[1].set_xlabel('time (s)')
 
-        for i in range(num_seg):
-            time_seg = time[seg_idxs[i, 0]: seg_idxs[i, 1]]
-            mach_seg = mach[seg_idxs[i, 0]: seg_idxs[i, 1]]
-            order = len(time_seg) - 1
-            p = P.fit(time_seg, mach_seg, order)
-            deriv = p.deriv(1)
-
-            time_nodes = time[seg_idxs[i, 0]: seg_idxs[i, 1]]
-            mach_nodes = mach[seg_idxs[i, 0]: seg_idxs[i, 1]]
-            mach_rate_nodes = mach_rate[seg_idxs[i, 0]: seg_idxs[i, 1]]
+        for time_seg, mach_seg, mach_rate_seg in zip(gd.seg_val_iter('all', time),
+                                                     gd.seg_val_iter('all', mach),
+                                                     gd.seg_val_iter('all', mach_rate)):
+            poly = Polynomial.fit(time_seg, mach_seg, len(time_seg) - 1)
+            deriv = poly.deriv(1)
 
             if plot:
                 c = next(color)
                 t_plot = np.linspace(time_seg[0], time_seg[-1], 20)
-                m_plot = p(t_plot)
+                m_plot = poly(t_plot)
                 m_rate_plot = deriv(t_plot)
                 axes[0].plot(t_plot, m_plot, c=c)
                 axes[1].plot(t_plot, m_rate_plot, '--', c=c)
 
-                axes[0].plot(time[seg_idxs[i, 0]: seg_idxs[i, 1]], mach[seg_idxs[i, 0]: seg_idxs[i, 1]], 'o', c=c)
-                axes[1].plot(time[seg_idxs[i, 0]: seg_idxs[i, 1]], mach_rate[seg_idxs[i, 0]: seg_idxs[i, 1]], 'o', c=c)
+                axes[0].plot(time_seg, mach_seg, 'o', c=c)
+                axes[1].plot(time_seg, mach_rate_seg, 'o', c=c)
 
-            assert_near_equal(mach_nodes, p(time_nodes), tolerance=1.0E-9)
-            assert_near_equal(mach_rate_nodes, deriv(time_nodes), tolerance=1.0E-9)
+            assert_near_equal(mach_seg, poly(time_seg), tolerance=1.0E-9)
+            assert_near_equal(mach_rate_seg, deriv(time_seg), tolerance=1.0E-9)
 
         if plot:
             plt.show()
@@ -207,7 +203,7 @@ class TestMinTimeClimb(unittest.TestCase):
 
         self._test_timeseries_units(p)
 
-        self._test_mach_rate(p)
+        self._test_mach_rate(p, plot=False)
 
     @require_pyoptsparse(optimizer='SLSQP')
     def test_results_radau(self):
@@ -222,7 +218,7 @@ class TestMinTimeClimb(unittest.TestCase):
 
         self._test_timeseries_units(p)
 
-        self._test_mach_rate(p)
+        self._test_mach_rate(p, plot=False)
 
 if __name__ == '__main__':  # pragma: no cover
     unittest.main()

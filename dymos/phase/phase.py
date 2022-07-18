@@ -1966,7 +1966,7 @@ class Phase(om.Group):
                              rtol=_unspecified, first_step=_unspecified, max_step=_unspecified,
                              reports=False):
         """
-        Return a SolveIVPPhase instance.
+        Return a Phase instance containing a SolveIVP transcription.
 
         This instance is initialized based on data from this Phase instance and
         the given simulation times.
@@ -2034,11 +2034,8 @@ class Phase(om.Group):
         """
         phs = from_phase
 
-        op_dict = dict([(name, options) for (name, options) in phs.list_outputs(units=True,
-                                                                                list_autoivcs=True,
-                                                                                out_stream=None)])
-        ip_dict = dict([(name, options) for (name, options) in phs.list_inputs(units=True,
-                                                                               out_stream=None)])
+        op_dict = dict(phs.list_outputs(units=True, list_autoivcs=True,  out_stream=None))
+        ip_dict = dict(phs.list_inputs(units=True, out_stream=None))
 
         phs_path = phs.pathname + '.' if phs.pathname else ''
 

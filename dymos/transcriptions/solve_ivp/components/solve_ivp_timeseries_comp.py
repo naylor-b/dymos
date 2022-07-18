@@ -52,9 +52,7 @@ class SolveIVPTimeseriesOutputComp(TimeseriesOutputCompBase):
         rate : bool
             If True, timeseries output is a rate.
         """
-        if rate:
-            raise NotImplementedError("Timeseries output rates are not currently supported for "
-                                      "SolveIVP transcriptions.")
+        self._has_rate |= rate
 
         nodeshape = (self.num_nodes,)
         input_name = f'all_values:{name}'
@@ -75,4 +73,11 @@ class SolveIVPTimeseriesOutputComp(TimeseriesOutputCompBase):
         outputs : `Vector`
             `Vector` containing outputs.
         """
-        outputs.set_val(inputs.asarray())
+        if self._has_rate:
+            for iname, oname, shape, is_rate in self._vars.values():
+                if is_rate:
+                    pass
+                else:
+                    outputs[oname] = inputs[iname]
+        else:
+            outputs.set_val(inputs.asarray())

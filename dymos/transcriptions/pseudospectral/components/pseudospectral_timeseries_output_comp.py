@@ -143,6 +143,8 @@ class PseudospectralTimeseriesOutputComp(TimeseriesOutputCompBase):
         if name in self._vars:
             return False
 
+        self._has_rate |= rate
+
         if src in self._sources:
             # If we're already pulling the source into this timeseries, use that as the
             # input for this output.

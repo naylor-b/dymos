@@ -1,3 +1,4 @@
+
 import openmdao.api as om
 
 from ...transcriptions.grid_data import GridData
@@ -23,6 +24,7 @@ class TimeseriesOutputCompBase(om.ExplicitComponent):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._no_check_partials = not dymos_options['include_check_partials']
+        self._has_rate = False
 
     def initialize(self):
         """

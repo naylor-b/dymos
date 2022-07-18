@@ -394,7 +394,7 @@ class GaussLobatto(PseudospectralBase):
         """
         ode_outputs = get_promoted_vars(self._get_ode(phase), 'output')
 
-        for timeseries_name, timeseries_options in phase._timeseries.items():
+        for timeseries_name in phase._timeseries:
             timeseries_comp = phase._get_subsystem(timeseries_name)
             time_units = phase.time_options['units']
 

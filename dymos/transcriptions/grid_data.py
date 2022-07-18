@@ -479,3 +479,22 @@ class GridData(object):
             Bd = sp.csr_matrix(Bd)
 
         return Ai, Bi, Ad, Bd
+
+    def seg_val_iter(self, seg_name, vals):
+        """
+        Iterate over value array divided into segments.
+
+        Parameters
+        ----------
+        seg_name : str
+            Name of segment group.
+        vals : ndarray
+            Array of values to be split into segments.
+
+        Yields
+        ------
+        ndarray
+            Each segment of the array 'vals'.
+        """
+        for start, stop in self.subset_segment_indices[seg_name]:
+            yield vals[start:stop]
