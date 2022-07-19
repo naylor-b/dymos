@@ -108,7 +108,7 @@ class PseudospectralTimeseriesOutputComp(TimeseriesOutputCompBase):
 
         self.add_input('dt_dstau', shape=(self.input_num_nodes,), units=self.options['time_units'])
 
-    def _add_output_configure(self, name, units, shape, desc='', src=None, rate=False):
+    def _add_output_configure(self, name, units, shape, desc='', src=None, rate_src=None):
         """
         Add a single timeseries output.
 
@@ -128,8 +128,8 @@ class PseudospectralTimeseriesOutputComp(TimeseriesOutputCompBase):
             description of the timeseries output variable.
         src : str
             The src path of the variables input, used to prevent redundant inputs.
-        rate : bool
-            If True, timeseries output is a rate.
+        rate_src : str or None
+            If not None, timeseries output is a rate and rate_src is the original variable name.
 
         Returns
         -------
@@ -143,7 +143,7 @@ class PseudospectralTimeseriesOutputComp(TimeseriesOutputCompBase):
         if name in self._vars:
             return False
 
-        self._has_rate |= rate
+        self._has_rate |= rate_src is not None
 
         if src in self._sources:
             # If we're already pulling the source into this timeseries, use that as the
@@ -162,12 +162,12 @@ class PseudospectralTimeseriesOutputComp(TimeseriesOutputCompBase):
         output_name = name
         self.add_output(output_name, shape=(output_num_nodes,) + shape, units=units, desc=desc)
 
-        self._vars[name] = (input_name, output_name, shape, rate)
+        self._vars[name] = (input_name, output_name, shape, rate_src)
 
         size = np.prod(shape)
         jac = np.zeros((output_num_nodes, size, input_num_nodes, size))
 
-        if rate:
+        if rate_src is not None:
             mat = self.differentiation_matrix
         else:
             mat = self.interpolation_matrix

@@ -1,3 +1,5 @@
+from numpy.polynomial import Polynomial
+
 from dymos.transcriptions.common.timeseries_output_comp import TimeseriesOutputCompBase
 
 
@@ -31,7 +33,7 @@ class SolveIVPTimeseriesOutputComp(TimeseriesOutputCompBase):
         else:
             self.num_nodes = grid_data.num_segments * self.options['output_nodes_per_seg']
 
-    def _add_output_configure(self, name, units, shape, desc, rate=False):
+    def _add_output_configure(self, name, units, shape, desc, rate_src=None):
         """
         Add a single timeseries output.
 
@@ -49,18 +51,18 @@ class SolveIVPTimeseriesOutputComp(TimeseriesOutputCompBase):
             Default is None, which means it has no units.
         desc : str
             description of the timeseries output variable.
-        rate : bool
-            If True, timeseries output is a rate.
+        rate_src : str or None
+            If not None, timeseries output is a rate and rate_src is the original variable name.
         """
-        self._has_rate |= rate
+        self._has_rate |= rate_src is not None
 
-        nodeshape = (self.num_nodes,)
+        varshape = (self.num_nodes,) + shape
         input_name = f'all_values:{name}'
 
-        self.add_input(input_name, shape=nodeshape + shape,  units=units, desc=desc)
-        self.add_output(name, shape=nodeshape + shape, units=units, desc=desc)
+        self.add_input(input_name, shape=varshape,  units=units, desc=desc)
+        self.add_output(name, shape=varshape, units=units, desc=desc)
 
-        self._vars[name] = (input_name, name, shape, rate)
+        self._vars[name] = (input_name, name, shape, rate_src)
 
     def compute(self, inputs, outputs):
         """
@@ -74,10 +76,21 @@ class SolveIVPTimeseriesOutputComp(TimeseriesOutputCompBase):
             `Vector` containing outputs.
         """
         if self._has_rate:
-            for iname, oname, shape, is_rate in self._vars.values():
-                if is_rate:
-                    pass
-                else:
+            nodes_per_seg = self.options['output_nodes_per_seg']
+            nsegs = self.num_nodes // nodes_per_seg
+            time = inputs['all_values:time'][:, 0]
+            for iname, oname, _, rate_src in self._vars.values():
+                if rate_src is None:
                     outputs[oname] = inputs[iname]
+                else:
+                    ins = inputs[rate_src][:, 0]
+                    outs = outputs[oname][:, 0]
+                    start = end = 0
+                    for i in range(nsegs):
+                        end += nodes_per_seg
+                        poly = Polynomial.fit(time[start:end], ins[start:end], end - start - 1)
+                        deriv = poly.deriv(1)
+                        outs[start:end] = deriv(time[start:end])
+                        start = end
         else:
             outputs.set_val(inputs.asarray())

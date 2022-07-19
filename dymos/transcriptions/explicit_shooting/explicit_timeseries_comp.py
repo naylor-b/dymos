@@ -49,7 +49,7 @@ class ExplicitTimeseriesComp(TimeseriesOutputCompBase):
         self.input_num_nodes = igd.subset_num_nodes['segment_ends']
         self.output_num_nodes = self.input_num_nodes
 
-    def _add_output_configure(self, name, units, shape, desc='', src=None, rate=False):
+    def _add_output_configure(self, name, units, shape, desc='', src=None, rate_src=None):
         """
         Add a single timeseries output.
 
@@ -69,15 +69,15 @@ class ExplicitTimeseriesComp(TimeseriesOutputCompBase):
             description of the timeseries output variable.
         src : str
             The src path of the variables input, used to prevent redundant inputs.
-        rate : bool
-            If True, timeseries output is a rate.
+        rate_src : str or None
+            If not None, timeseries output is a rate and this is the name of the original output.
 
         Returns
         -------
         bool
             True if a new input was added for the output, or False if it reuses an existing input.
         """
-        if rate:
+        if rate_src is not None:
             raise NotImplementedError("Timeseries output rates are not currently supported for "
                                       "ExplicitShooting transcriptions.")
 
@@ -107,7 +107,7 @@ class ExplicitTimeseriesComp(TimeseriesOutputCompBase):
                         shape=(output_num_nodes,) + shape,
                         units=units, desc=desc)
 
-        self._vars[name] = (input_name, output_name, shape, rate)
+        self._vars[name] = (input_name, output_name, shape, rate_src)
 
         size = np.prod(shape)
         rs = cs = np.arange(output_num_nodes * size, dtype=int)

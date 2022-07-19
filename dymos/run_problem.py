@@ -91,7 +91,6 @@ def run_problem(problem, refine_method='hp', refine_iteration_limit=0, run_drive
         for subsys in problem.model.system_iter(include_self=True, recurse=True):
             if isinstance(subsys, Trajectory):
                 subsys.simulate(record_file=simulation_record_file, case_prefix=case_prefix, **_simulate_kwargs)
-
     if make_plots:
         if simulate:
             timeseries_plots(solution_record_file, simulation_record_file=simulation_record_file,

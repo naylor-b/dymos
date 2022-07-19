@@ -144,6 +144,9 @@ class TestMinTimeClimb(unittest.TestCase):
 
     def _test_mach_rate(self, p, plot=False):
         """ Test that the mach rate is provided by the timeseries and is accurate. """
+        # run simulation to check solve_ivp mach rate
+        sim_prob = p.model.traj.simulate()
+
         # Verify correct timeseries output of mach_rate
         output_dict = dict(p.model.list_outputs(units=True, out_stream=None))
         ts = {k: v for k, v in output_dict.items() if 'timeseries.' in k}
@@ -152,6 +155,9 @@ class TestMinTimeClimb(unittest.TestCase):
         time = p['traj.phases.phase0.timeseries.time'][:, 0]
         mach = p['traj.phases.phase0.timeseries.mach'][:, 0]
         mach_rate = p['traj.phases.phase0.timeseries.mach_rate'][:, 0]
+
+        sim_time = sim_prob['traj.phases.phase0.timeseries.time'][:, 0]
+        sim_mach_rate = sim_prob['traj.phases.phase0.timeseries.mach_rate'][:, 0]
 
         # Fit a numpy polynomial segment by segment to mach vs time, and compare the derivatives to mach_rate
         gd = p.model.traj.phases.phase0.options['transcription'].grid_data
@@ -188,6 +194,9 @@ class TestMinTimeClimb(unittest.TestCase):
             assert_near_equal(mach_rate_seg, deriv(time_seg), tolerance=1.0E-9)
 
         if plot:
+            axes[1].plot(sim_time, sim_mach_rate)
+
+        if plot:
             plt.show()
 
     @require_pyoptsparse(optimizer='SLSQP')
@@ -203,7 +212,7 @@ class TestMinTimeClimb(unittest.TestCase):
 
         self._test_timeseries_units(p)
 
-        self._test_mach_rate(p, plot=False)
+        self._test_mach_rate(p, plot=True)
 
     @require_pyoptsparse(optimizer='SLSQP')
     def test_results_radau(self):

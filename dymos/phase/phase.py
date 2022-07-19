@@ -1283,6 +1283,8 @@ class Phase(om.Group):
         if timeseries not in self._timeseries:
             raise ValueError(f'Timeseries {timeseries} does not exist in phase {self.pathname}')
 
+        rate_src = 'all_values:' + name.split('.')[-1] if rate else None
+
         if output_name is None:
             output_name = name.split('.')[-1]
 
@@ -1299,7 +1301,7 @@ class Phase(om.Group):
             ts_output['wildcard_units'] = {}
             ts_output['units'] = units
             ts_output['shape'] = shape
-            ts_output['is_rate'] = rate
+            ts_output['rate_src'] = rate_src
 
             self._timeseries[timeseries]['outputs'][output_name] = ts_output
 

@@ -58,7 +58,7 @@ def _mpl_timeseries_plots(varnames, time_units, var_units, phase_names, phases_n
     # use a colormap with 20 values
     cm = plt.cm.get_cmap('tab20')
 
-    for ivar, var_name in enumerate(varnames):
+    for var_name in varnames:
         # start a new plot
         fig, ax = plt.subplots()
 
@@ -139,8 +139,8 @@ def _bokeh_timeseries_plots(varnames, time_units, var_units, phase_names, phases
                             last_solution_case, last_simulation_case, plot_dir_path, num_cols=2,
                             bg_fill_color='#282828', grid_line_color='#666666', open_browser=False):
     from bokeh.io import output_notebook, output_file, save, show
-    from bokeh.layouts import gridplot, column, row, grid, layout
-    from bokeh.models import Legend, LegendItem
+    from bokeh.layouts import gridplot, column
+    from bokeh.models import Legend
     from bokeh.plotting import figure
     import bokeh.palettes as bp
 
@@ -170,7 +170,7 @@ def _bokeh_timeseries_plots(varnames, time_units, var_units, phase_names, phases
         max_time = max(max_time, np.max(last_solution_case.outputs[time_name]))
         colors[phase_name] = cmap[iphase]
 
-    for ivar, var_name in enumerate(varnames):
+    for var_name in varnames:
         # Get the labels
         time_label = f'time ({time_units[var_name]})'
         var_label = f'{var_name} ({var_units[var_name]})'

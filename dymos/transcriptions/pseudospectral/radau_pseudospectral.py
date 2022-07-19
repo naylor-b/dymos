@@ -393,7 +393,7 @@ class Radau(PseudospectralBase):
                 units = ts_output['units']
                 wildcard_units = ts_output['wildcard_units']
                 shape = ts_output['shape']
-                is_rate = ts_output['is_rate']
+                rate_src = ts_output['rate_src']
 
                 if '*' in var:  # match outputs from the ODE
                     matches = filter(list(ode_outputs.keys()), var)
@@ -454,7 +454,7 @@ class Radau(PseudospectralBase):
                     add_connection = timeseries_comp._add_output_configure(output_name, units,
                                                                            shape, desc='',
                                                                            src=f'rhs_all.{v}',
-                                                                           rate=is_rate)
+                                                                           rate_src=rate_src)
 
                     if add_connection:
                         phase.connect(src_name=f'rhs_all.{v}',

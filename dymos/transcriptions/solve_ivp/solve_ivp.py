@@ -641,7 +641,7 @@ class SolveIVP(TranscriptionBase):
             units = ts_output['units']
             wildcard_units = ts_output['wildcard_units']
             shape = ts_output['shape']
-            is_rate = ts_output['is_rate']
+            rate_src = ts_output['rate_src']
 
             if '*' in var:  # match outputs from the ODE
                 # TODO: is filter still case INSENSTIVE on windows?  If so, fix this
@@ -678,7 +678,7 @@ class SolveIVP(TranscriptionBase):
 
                 try:
                     timeseries_comp._add_output_configure(output_name, shape=shape, units=units,
-                                                          desc='', rate=is_rate)
+                                                          desc='', rate_src=rate_src)
                 except ValueError as e:  # OK if it already exists
                     if 'already exists' in str(e):
                         continue
@@ -756,6 +756,7 @@ class SolveIVP(TranscriptionBase):
     def _get_rate_source_path(self, state_var, nodes, phase):
         """
         Return the rate source location for a given state name.
+
         Parameters
         ----------
         state_var : str
@@ -764,6 +765,7 @@ class SolveIVP(TranscriptionBase):
             The nodes subset which we are connecting from the rate source. Note used in SolveIVP.
         phase : dymos.Phase
             Phase object containing the rate source.
+
         Returns
         -------
         str
