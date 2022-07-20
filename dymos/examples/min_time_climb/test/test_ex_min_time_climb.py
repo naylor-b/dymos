@@ -212,7 +212,7 @@ class TestMinTimeClimb(unittest.TestCase):
 
         self._test_timeseries_units(p)
 
-        self._test_mach_rate(p, plot=True)
+        self._test_mach_rate(p, plot=False)
 
     @require_pyoptsparse(optimizer='SLSQP')
     def test_results_radau(self):
