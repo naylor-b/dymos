@@ -40,6 +40,11 @@ class PseudospectralTimeseriesOutputComp(TimeseriesOutputCompBase):
         # Flag to set if no multiplication by the interpolation matrix is necessary
         self._no_interp = False
 
+    def _declare_options(self):
+        """
+        Declare options before kwargs are processed in the init method.
+        """
+        super()._declare_options()
         self.options.declare('time_units', default=None, allow_none=True, types=str,
                              desc='Units of time')
 
@@ -102,13 +107,6 @@ class PseudospectralTimeseriesOutputComp(TimeseriesOutputCompBase):
             self.differentiation_matrix = block_diag(*D_blocks)
 
         self.add_input('dt_dstau', shape=(self.input_num_nodes,), units=self.options['time_units'])
-
-        # self._timeseries_outputs was never populated...
-        # for (name, kwargs) in self._timeseries_outputs:
-        #     units = kwargs['units']
-        #     desc = kwargs['units']
-        #     shape = kwargs['shape']
-        #     self._add_output_configure(name, units, shape, desc)
 
     def _add_output_configure(self, name, units, shape, desc='', src=None, rate=False):
         """
