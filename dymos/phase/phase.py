@@ -1138,7 +1138,7 @@ class Phase(om.Group):
                 self.add_timeseries_output(name, output_name=constraint_name, units=units, shape=shape)
 
     def add_timeseries_output(self, name, output_name=None, units=_unspecified, shape=_unspecified,
-                              timeseries='timeseries', rate=False):
+                              timeseries='timeseries'):
         r"""
         Add a variable to the timeseries outputs of the phase.
 
@@ -1216,9 +1216,6 @@ class Phase(om.Group):
             since Dymos doesn't necessarily know the shape of ODE outputs until setup time.
         timeseries : str or None
             The name of the timeseries to which the output is being added.
-        rate : bool
-            If True, add the rate of change of the named variable to the timeseries outputs of the
-            phase.  The rate variable will be named f'{name}_rate'.  Defaults to False.
         """
         if type(name) is list:
             for i, name_i in enumerate(name):

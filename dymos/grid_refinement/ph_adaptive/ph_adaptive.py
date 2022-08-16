@@ -17,13 +17,10 @@ def split_segments(old_seg_ends, B):
     ndarray
         Segment ends of refined grid.
     """
-    new_segment_ends = []
-    for q in range(0, B.size):
-        new_ends = list(np.linspace(old_seg_ends[q], old_seg_ends[q + 1], B[q] + 1))
-        new_segment_ends.extend(new_ends[:-1])
-    new_segment_ends.extend([1])
-    new_segment_ends = np.asarray(new_segment_ends)
-    return new_segment_ends
+    new_segment_ends = [np.linspace(old_seg_ends[q], old_seg_ends[q + 1], B[q])
+                        for q in range(0, B.size)]
+    new_segment_ends.append([1])
+    return np.concatenate(new_segment_ends)
 
 
 class PHAdaptive:

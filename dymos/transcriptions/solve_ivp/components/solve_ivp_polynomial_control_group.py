@@ -163,7 +163,7 @@ class SolveIVPLGLPolynomialControlComp(om.ExplicitComponent):
             `Vector` containing outputs.
         """
         invals = inputs.values()
-        dt_dptau = 0.5 * next(invals)
+        dt_dptau = 0.5 * next(invals)  # t_duration
 
         for name, u in zip(self.options['polynomial_control_options'], invals):
             L_do, D_do, D2_do = self._matrices[name]

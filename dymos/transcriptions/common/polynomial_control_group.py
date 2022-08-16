@@ -109,12 +109,10 @@ class LGLPolynomialControlComp(om.ExplicitComponent):
             self.rate2_jacs[name] = self.rate2_jacs[name].reshape((num_nodes * size,
                                                                   num_control_input_nodes * size),
                                                                   order='C')
-            self.val_jac_rows[name], self.val_jac_cols[name] = \
-                np.nonzero(self.val_jacs[name])
-            self.rate_jac_rows[name], self.rate_jac_cols[name] = \
-                np.nonzero(self.rate_jacs[name])
-            self.rate2_jac_rows[name], self.rate2_jac_cols[name] = \
-                np.nonzero(self.rate2_jacs[name])
+
+            self.val_jac_rows[name], self.val_jac_cols[name] = np.nonzero(self.val_jacs[name])
+            self.rate_jac_rows[name], self.rate_jac_cols[name] = np.nonzero(self.rate_jacs[name])
+            self.rate2_jac_rows[name], self.rate2_jac_cols[name] = np.nonzero(self.rate2_jacs[name])
 
             self.sizes[name] = size
 

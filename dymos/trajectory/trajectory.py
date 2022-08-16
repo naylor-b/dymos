@@ -1006,10 +1006,6 @@ class Trajectory(om.Group):
         _vars = ['*'] if vars is None else vars
 
         # Resolve linkage pairs from the phases sequence
-        a, b = itertools.tee(phases)
-        next(b, None)
-        phase_pairs = zip(a, b)
-
         if len(locs) == 1:
             _locs = num_links * locs
         elif len(locs) == 2:
@@ -1021,8 +1017,11 @@ class Trajectory(om.Group):
                              f'the number of phases specified.  There are {num_links} phase pairs '
                              f'but {len(locs)} location tuples specified.')
 
-        for i, (phase_name_a, phase_name_b) in enumerate(phase_pairs):
-            loc_a, loc_b = _locs[i]
+        a, b = itertools.tee(phases)
+        next(b, None)
+
+        for phase_name_a, phase_name_b, loctup in zip(a, b, _locs):
+            loc_a, loc_b = loctup
             for var in _vars:
                 self.add_linkage_constraint(phase_a=phase_name_a, phase_b=phase_name_b,
                                             var_a=var, var_b=var, loc_a=loc_a, loc_b=loc_b,
