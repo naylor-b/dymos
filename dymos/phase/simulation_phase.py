@@ -140,10 +140,10 @@ class SimulationPhase(Phase):
         """
         phs = from_phase
 
-        op_dict = dict([(name, options) for (name, options) in phs.list_outputs(units=True, all_procs=True, 
+        op_dict = dict([(name, options) for (name, options) in phs.list_outputs(units=True, all_procs=True,
                                                                                 list_autoivcs=True,
                                                                                 out_stream=None)])
-        ip_dict = dict([(name, options) for (name, options) in phs.list_inputs(units=True, all_procs=True, 
+        ip_dict = dict([(name, options) for (name, options) in phs.list_inputs(units=True, all_procs=True,
                                                                                out_stream=None)])
 
         if self.pathname.partition('.')[0] == self.name:
