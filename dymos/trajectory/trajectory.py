@@ -395,6 +395,8 @@ class Trajectory(om.Group):
             tgt_shapes = {}
 
             for phase_name, phs in self._phases.items():
+                if not phs._is_local:
+                    continue
 
                 if targets is None or phase_name not in targets:
                     # Attempt to connect to an input parameter of the same name in the phase, if
@@ -436,6 +438,18 @@ class Trajectory(om.Group):
                                      f'phase {phase_name}. If connecting to ODE inputs in the phase, '
                                      f'format the targets as a sequence of strings.')
                 tgts.append(tgt)
+
+            if self.comm.size > 1:
+                alltgt = []
+                alltgt_shapes = {}
+                alltgt_units = {}
+                for t, tshapes, tunits in self.comm.allgather((tgts, tgt_shapes, tgt_units)):
+                    alltgt.extend(t)
+                    alltgt_shapes.update(tshapes)
+                    alltgt_units.update(tunits)
+                tgts = sorted(set(alltgt))
+                tgt_shapes = alltgt_shapes
+                tgt_units = alltgt_units
 
             if not tgts:
                 # Find the reason
@@ -493,6 +507,8 @@ class Trajectory(om.Group):
 
             for opt_dict in all_dicts:
                 for options in opt_dict.values():
+                    # TODO: see if we can make this more efficient by creating bigger data
+                    # structures to send and only allgathering once.
 
                     all_ranks = self.comm.allgather(options['shape'])
                     for item in all_ranks:
@@ -1362,6 +1378,9 @@ class Trajectory(om.Group):
             if phs.simulate_options is None:
                 continue
 
+            # TODO: probably don't need to do all of this work (and allocate all of this memory)
+            # if the phase we're making a simulation phase from is non-local.  Maybe just use some
+            # simple placeholder system...
             sim_phs = phs.get_simulation_phase(times_per_seg=times_per_seg, method=method,
                                                atol=atol, rtol=rtol, first_step=first_step,
                                                max_step=max_step, reports=reports)
@@ -1372,7 +1391,7 @@ class Trajectory(om.Group):
 
         sim_traj.parameter_options.update(self.parameter_options)
 
-        sim_prob = om.Problem(model=om.Group(), reports=reports)
+        sim_prob = om.Problem(model=om.Group(), reports=reports, comm=self.comm)
 
         traj_name = self.name if self.name else 'sim_traj'
         sim_prob.model.add_subsystem(traj_name, sim_traj)
@@ -1395,9 +1414,10 @@ class Trajectory(om.Group):
         for phase_name, phs in sim_traj._phases.items():
             # TODO: use the following method once OpenMDAO >= 3.25.1
             # phs.set_val_from_phase(from_phase=self._phases[phase_name])
-            phs.initialize_values_from_phase(prob=sim_prob,
-                                             from_phase=self._phases[phase_name],
-                                             phase_path=traj_name)
+            if phs._is_local:
+                phs.initialize_values_from_phase(prob=sim_prob,
+                                                 from_phase=self._phases[phase_name],
+                                                 phase_path=traj_name)
 
         print(f'\nSimulating trajectory {self.pathname}')
         sim_prob.run_model(case_prefix=case_prefix, reset_iter_counts=reset_iter_counts)

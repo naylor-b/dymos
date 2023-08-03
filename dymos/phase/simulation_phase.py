@@ -140,10 +140,10 @@ class SimulationPhase(Phase):
         """
         phs = from_phase
 
-        op_dict = dict([(name, options) for (name, options) in phs.list_outputs(units=True, all_procs=True,
+        op_dict = dict([(name, options) for (name, options) in phs.list_outputs(units=True, all_procs=False,
                                                                                 list_autoivcs=True,
                                                                                 out_stream=None)])
-        ip_dict = dict([(name, options) for (name, options) in phs.list_inputs(units=True, all_procs=True,
+        ip_dict = dict([(name, options) for (name, options) in phs.list_inputs(units=True, all_procs=False,
                                                                                out_stream=None)])
 
         if self.pathname.partition('.')[0] == self.name:
@@ -151,8 +151,8 @@ class SimulationPhase(Phase):
         else:
             self_path = self.pathname.partition('.')[0] + '.' + self.name + '.'
 
-        if MPI:
-            op_dict = MPI.COMM_WORLD.bcast(op_dict, root=0)
+        # if MPI:
+        #     op_dict = MPI.COMM_WORLD.bcast(op_dict, root=0)
 
         # Set the integration times
         time_name = phs.time_options['name']
@@ -183,7 +183,7 @@ class SimulationPhase(Phase):
 
             # We use this private function to grab the correctly sized variable from the
             # auto_ivc source.
-            val = phs.get_val(f'parameters:{name}', units=units)
+            val = phs.get_val(f'parameters:{name}', units=units, from_src=False)
 
             if phase_path:
                 prob_path = f'{phase_path}.{self.name}.parameters:{name}'
